@@ -1,16 +1,28 @@
-# React + Vite
+# 📘 Course Information
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple React app built while learning the fundamentals of React (components, props, and JSX) through exercises 1.1 - 1.5 of the Full Stack Open course.
 
-Currently, two official plugins are available:
+## 🎯 What this project does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Displays a course title, three course parts with their exercise counts, and automatically calculates the total number of exercises.
 
-## React Compiler
+## 🧠 What I practiced
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🧩 Creating and nesting React components (Header, Content, Part, Total)
+- 📨 Passing data between components using props
+- 📊 Evolving data structures: variables → objects → arrays → nested object
+- 🔍 Keeping the console open (promise kept!)
 
-## Expanding the ESLint configuration
+## 🚀 How to run
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Then open http://localhost:5173
+
+## 📚 Reference
+
+[Exercises 1.1 - 1.2](https://fullstackopen.com/en/part1/introduction_to_react#exercises-1-1-1-2)
+[Exercises 1.3 - 1.5](https://fullstackopen.com/en/part1/java_script#exercises-1-3-1-5)
