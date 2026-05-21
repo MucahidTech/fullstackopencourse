@@ -10,12 +10,18 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <>
       <h2>Statistics</h2>
-      <p>Good {good}</p>
-      <p>Neutral {neutral}</p>
-      <p>Bad {bad}</p>
-      <p>All {totalFeedback}</p>
-      <p>Average {average}</p>
-      <p>Positive {posPercentage} %</p>
+      {!totalFeedback ? (
+        <p>No Feedback Given Yet</p>
+      ) : (
+        <>
+          <p>Good {good}</p>
+          <p>Neutral {neutral}</p>
+          <p>Bad {bad}</p>
+          <p>All {totalFeedback}</p>
+          <p>Average {average}</p>
+          <p>Positive {posPercentage} %</p>
+        </>
+      )}
     </>
   );
 };
