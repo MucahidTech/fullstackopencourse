@@ -1,16 +1,41 @@
-# React + Vite
+# 🍴 Unicafe Feedback App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React app for collecting customer feedback (good/neutral/bad) and displaying statistics. Built through exercises 1.6 - 1.11 of Full Stack Open.
 
-Currently, two official plugins are available:
+## 🎯 What this project does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Collects feedback and shows: total count, average score (good=1, neutral=0, bad=-1), and positive percentage.
 
-## React Compiler
+## 🧠 What I practiced
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ⏰ **useState hook** - Managing multiple state variables (good, neutral, bad)
+- 🎛️ **Event handling** - Updating state on button clicks
+- 🔁 **Conditional rendering** - Showing statistics only after feedback is given
+- 📊 **Derived state** - Calculating total, average, and percentage from existing state
+- 🧩 **Component composition** - Extracting Button, Statistics, and StatisticLine components
+- 🗃️ **HTML tables** - Displaying statistics in structured format
+- ♻️ **Reusable components** - StatisticLine component for DRY code
 
-## Expanding the ESLint configuration
+## 🚀 How to run
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Then open **http://localhost:5173**
+
+## 📈 Evolution Through Exercises
+
+| Exercise | Key Concept                                            |
+| -------- | ------------------------------------------------------ |
+| **1.6**  | Basic state with three counters (good/neutral/bad)     |
+| **1.7**  | Derived values (total, average, positive percentage)   |
+| **1.8**  | Extracting Statistics component                        |
+| **1.9**  | Conditional rendering (show stats only after feedback) |
+| **1.10** | Extracting StatisticLine component for reusability     |
+| **1.11** | Display statistics in HTML table                       |
+
+## 📚 Reference
+
+- [Exercises 1.6 - 1.11](https://fullstackopen.com/en/part1/a_more_complex_state_debugging_react_apps#exercises-1-6-1-14)
