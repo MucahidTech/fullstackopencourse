@@ -18,12 +18,29 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    if (
-      persons.some(
-        (person) => person.name.toLowerCase() === newName.toLowerCase(),
-      )
-    ) {
-      return alert(`${newName} is already added to phonebook`);
+
+    const existingPerson = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase(),
+    );
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`,
+        )
+      ) {
+        const changedPerson = { ...existingPerson, number: number };
+
+        personService
+          .update(changedPerson.id, changedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== changedPerson.id ? person : returnedPerson,
+              ),
+            );
+          });
+      }
+      return;
     }
 
     const personObject = {
