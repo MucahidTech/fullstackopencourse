@@ -75,9 +75,21 @@ const App = () => {
   const handleDelete = (id) => {
     const person = persons.find((p) => p.id === id);
     if (window.confirm(`Delete ${person.name}?`)) {
-      personService.remove(id).then((response) => {
-        setPersons(persons.filter((p) => p.id !== id));
-      });
+      personService
+        .remove(id)
+        .then(() => {
+          showMessage(
+            `Information of '${person.name}' has been removed from server`,
+          );
+          setPersons(persons.filter((p) => p.id !== id));
+        })
+        .catch((error) => {
+          showMessage(
+            `Information of '${person.name}' has already been removed from server`,
+            "error",
+          );
+          setPersons(persons.filter((p) => p.id !== id));
+        });
     }
   };
 
@@ -88,8 +100,8 @@ const App = () => {
           person.name.toLowerCase().includes(search.toLowerCase()),
         );
 
-  const showMessage = (text) => {
-    setMessage(text);
+  const showMessage = (text, type = "") => {
+    setMessage({ text, type });
     setTimeout(() => setMessage(null), 5000);
   };
 
