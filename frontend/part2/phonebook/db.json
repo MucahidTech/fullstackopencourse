@@ -22,8 +22,13 @@
     },
     {
       "name": "Ahmet",
-      "number": "123-45678",
+      "number": "123-45687",
       "id": "20vwz242Wh8"
+    },
+    {
+      "name": "Ahmet Mune",
+      "number": "1234566",
+      "id": "jimzG4fAe2U"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

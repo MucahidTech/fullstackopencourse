@@ -3,12 +3,15 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
+import Notification from "./components/Notification";
+import "./index.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [number, setNumber] = useState("");
   const [search, setSearch] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -38,6 +41,9 @@ const App = () => {
                 person.id !== changedPerson.id ? person : returnedPerson,
               ),
             );
+            showMessage(
+              `Number of '${returnedPerson.name}' has been updated on server`,
+            );
           });
       }
       return;
@@ -52,6 +58,7 @@ const App = () => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
       setNumber("");
+      showMessage(`Added '${returnedPerson.name}' to server`);
     });
   };
 
@@ -81,9 +88,15 @@ const App = () => {
           person.name.toLowerCase().includes(search.toLowerCase()),
         );
 
+  const showMessage = (text) => {
+    setMessage(text);
+    setTimeout(() => setMessage(null), 5000);
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter search={search} onChange={handleSearchChange} />
       <h2>Add a new contact</h2>
       <PersonForm
