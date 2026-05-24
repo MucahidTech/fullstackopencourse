@@ -18,17 +18,24 @@ const App = () => {
     setSearch(event.target.value);
   };
 
+  const handleShowCountry = (country) => {
+    setSearch(country.name.common);
+  };
+
   const countriesList =
     search === ""
       ? countries
-      : countries.filter((countrie) =>
-          countrie.name.common.toLowerCase().includes(search.toLowerCase()),
+      : countries.filter((country) =>
+          country.name.common.toLowerCase().includes(search.toLowerCase()),
         );
 
   return (
     <>
       <Filter search={search} onChange={handleSearch} />
-      <CountriesList countriesList={countriesList} />
+      <CountriesList
+        countriesList={countriesList}
+        onShowCountry={handleShowCountry}
+      />
     </>
   );
 };

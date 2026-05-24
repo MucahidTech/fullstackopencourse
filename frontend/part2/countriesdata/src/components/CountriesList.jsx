@@ -1,20 +1,6 @@
 import Country from "./Country";
 
-const CountriesList = ({ countriesList }) => {
-  // const syria = {
-  //   name: { common: "Syria", official: "Syrian Arab Republic" },
-  //   capital: "Damascus",
-  //   area: 185180,
-  //   region: "Asia",
-  //   population: 23000000,
-  //   timezones: ["UTC+03:00"],
-  //   languages: ["Arabic"],
-  //   flags: {
-  //     svg: "https://flagcdn.com/sy.svg",
-  //     alt: "The flag of Syria features three equal horizontal bands of red, white, and black, with two green five-pointed stars centered in the white band.",
-  //   },
-  // };
-
+const CountriesList = ({ countriesList, onShowCountry }) => {
   if (countriesList.length > 10) {
     return <p>Too many matches, specify another filter</p>;
   }
@@ -26,7 +12,10 @@ const CountriesList = ({ countriesList }) => {
   return (
     <ul>
       {countriesList.map((country) => (
-        <li key={country.cca3}>{country.name.common}</li>
+        <li key={country.cca3}>
+          <span>{country.name.common}</span>
+          <button onClick={() => onShowCountry(country)}>Show</button>
+        </li>
       ))}
     </ul>
   );
