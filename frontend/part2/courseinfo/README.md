@@ -1,17 +1,19 @@
-# 📘 Course Information
+# 📚 Course Info (Part 2)
 
-A simple React app built while learning the fundamentals of React (components, props, and JSX) through exercises 1.1 - 1.5 of the Full Stack Open course.
+A React app that displays course contents and exercises, refactored to handle dynamic data using `map()` and separate modules. Built through exercises 2.1 - 2.5 of Full Stack Open Course.
 
-## 🎯 What this project does
+## 🎯 What it does
 
-Displays a course title, three course parts with their exercise counts, and automatically calculates the total number of exercises.
+- 📖 Displays course name and list of parts
+- 🔢 Shows total number of exercises per course
+- 🧩 Renders all parts dynamically (no hardcoded indexes)
 
 ## 🧠 What I practiced
 
-- 🧩 Creating and nesting React components (Header, Content, Part, Total)
-- 📨 Passing data between components using props
-- 📊 Evolving data structures: variables → objects → arrays → nested object
-- 🔍 Keeping the console open (promise kept!)
+- 🗂️ Rendering collections with `.map()` and unique `key` props
+- 🧱 Separating components into modules (import/export)
+- 📐 Component composition (Course, Header, Content, Part, Total)
+- 🔁 Using `reduce()` to calculate total exercises
 
 ## 🚀 How to run
 
@@ -24,5 +26,4 @@ Then open http://localhost:5173
 
 ## 📚 Reference
 
-[Exercises 1.1 - 1.2](https://fullstackopen.com/en/part1/introduction_to_react#exercises-1-1-1-2)
-[Exercises 1.3 - 1.5](https://fullstackopen.com/en/part1/java_script#exercises-1-3-1-5)
+- [Exercises 2.1 - 2.5](https://fullstackopen.com/en/part2/rendering_a_collection_modules#exercises-2-1-2-5)
