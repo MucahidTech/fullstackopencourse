@@ -14,7 +14,7 @@ const password = process.argv[2];
 const name = process.argv[3];
 const number = process.argv[4];
 
-const url = `mongodb+srv://mucahidtech_db:${password}@cluster0.knwkezu.mongodb.net/`;
+const url = process.env.MONGODB_URI;
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url, { family: 4 });
