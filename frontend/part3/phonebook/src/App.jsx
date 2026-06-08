@@ -54,12 +54,17 @@ const App = () => {
       number: number,
     };
 
-    personService.create(personObject).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-      setNewName("");
-      setNumber("");
-      showMessage(`Added '${returnedPerson.name}' to server`);
-    });
+    personService
+      .create(personObject)
+      .then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName("");
+        setNumber("");
+        showMessage(`Added '${returnedPerson.name}' to server`);
+      })
+      .catch((error) => {
+        showMessage(error.response.data.error, "error");
+      });
   };
 
   const handleSearchChange = (event) => {
