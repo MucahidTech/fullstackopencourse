@@ -27,10 +27,13 @@ const errorHandler = (error, request, response, next) => {
 
 app.get("/info", (request, response) => {
   const currentDate = new Date();
-  response.send(
-    `<p>Phonebook has info for ${persons.length} people</p>
-<p>${currentDate}</p>`,
-  );
+
+  Person.countDocuments({}).then((count) => {
+    response.send(
+      `<p>Phonebook has info for ${count} people</p>
+      <p>${currentDate}</p>`,
+    );
+  });
 });
 
 app.get("/api/persons", (request, response) => {
@@ -94,7 +97,7 @@ app.put("/api/persons/:id", (request, response, next) => {
 
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
