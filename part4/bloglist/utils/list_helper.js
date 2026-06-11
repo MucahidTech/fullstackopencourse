@@ -1,5 +1,3 @@
-const zeroBlog = [];
-
 const oneBlog = [
   {
     _id: "5a422aa71b54a676234d17f8",
@@ -68,10 +66,18 @@ const totalLikes = (blogs) => {
   return blogs.reduce((sum, blog) => sum + blog.likes, 0);
 };
 
+const favoriteBlog = (blogs) => {
+  const mostFavorited =
+    blogs.length === 0
+      ? "no blogs"
+      : blogs.reduce((most, blog) => (blog.likes > most.likes ? blog : most));
+  return mostFavorited;
+};
+
 module.exports = {
-  zeroBlog,
   oneBlog,
   blogs,
   dummy,
   totalLikes,
+  favoriteBlog,
 };

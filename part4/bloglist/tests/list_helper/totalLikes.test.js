@@ -4,7 +4,7 @@ const listHelper = require("../../utils/list_helper");
 
 describe("total likes", () => {
   test("should return 0 when list is empty", () => {
-    const result = listHelper.totalLikes(listHelper.zeroBlog);
+    const result = listHelper.totalLikes([]);
     assert.strictEqual(result, 0);
   });
   test("should return the likes count when list has one blog", () => {
