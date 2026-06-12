@@ -1,12 +1,19 @@
-const { test, describe, after } = require("node:test");
+const { test, describe, after, beforeEach } = require("node:test");
 const assert = require("node:assert");
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../app");
+const helper = require("./test_helper");
+const Blog = require("../models/blog");
 
 const api = supertest(app);
 
 describe("Testing blogs API", () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({});
+    await Blog.insertMany(helper.initialBlogs);
+  });
+
   test("blogs are returned as json", async () => {
     await api
       .get("/api/blogs")
@@ -20,7 +27,15 @@ describe("Testing blogs API", () => {
     assert.strictEqual(response.body.length, 2);
   });
 
-  test.only("unique identifier is named 'id' not '_id'", async () => {
+  test("unique identifier is named 'id' not '_id'", async () => {
+    const response = await api.get("/api/blogs");
+    const blog = response.body[0];
+
+    assert.ok(blog.id);
+    assert.strictEqual(blog._id, undefined);
+  });
+
+  test("a valid blog can be added", async () => {
     const newBlog = {
       title: "Test Blog",
       author: "Tester",
@@ -29,12 +44,11 @@ describe("Testing blogs API", () => {
     };
 
     await api.post("/api/blogs").send(newBlog).expect(201);
+    const blogsAtEnd = await helper.blogsInDb();
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1);
 
-    const response = await api.get("/api/blogs");
-    const blog = response.body[2];
-
-    assert.ok(blog.id);
-    assert.strictEqual(blog._id, undefined);
+    const contents = blogsAtEnd.map((n) => n.title);
+    assert(contents.includes("Test Blog"));
   });
 
   after(async () => {

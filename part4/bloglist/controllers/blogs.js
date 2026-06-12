@@ -2,58 +2,44 @@ const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
 
 blogsRouter.get("/", async (request, response) => {
-  await Blog.find({}).then((blogs) => {
-    response.json(blogs);
-  });
+  const blogs = await Blog.find({});
+  response.json(blogs);
 });
 
-blogsRouter.get("/:id", (request, response, next) => {
-  Blog.findById(request.params.id)
-    .then((blog) => {
-      if (blog) {
-        response.json(blog);
-      } else {
-        response.status(404).end();
-      }
-    })
-    .catch((error) => next(error));
+blogsRouter.get("/:id", async (request, response, next) => {
+  const blog = await Blog.findById(request.params.id);
+  if (blog) {
+    response.json(blog);
+  } else {
+    response.status(404).end();
+  }
 });
 
-blogsRouter.post("/", (request, response, next) => {
+blogsRouter.post("/", async (request, response, next) => {
   const blog = new Blog(request.body);
 
-  blog
-    .save()
-    .then((result) => {
-      response.status(201).json(result);
-    })
-    .catch((error) => next(error));
+  const savedBlog = await blog.save();
+  response.status(201).json(savedBlog);
 });
 
-blogsRouter.put("/:id", (request, response, next) => {
+blogsRouter.put("/:id", async (request, response, next) => {
   const { title, author, url, likes } = request.body;
 
-  Blog.findByIdAndUpdate(
+  const blog = Blog.findByIdAndUpdate(
     request.params.id,
     { title, author, url, likes },
     { new: true, runValidators: true },
-  )
-    .then((updatedBlog) => {
-      if (updatedBlog) {
-        response.json(updatedBlog);
-      } else {
-        response.status(404).end();
-      }
-    })
-    .catch((error) => next(error));
+  );
+  if (updatedBlog) {
+    response.json(updatedBlog);
+  } else {
+    response.status(404).end();
+  }
 });
 
-blogsRouter.delete("/:id", (request, response, next) => {
-  Blog.findByIdAndDelete(request.params.id)
-    .then(() => {
-      response.status(204).end();
-    })
-    .catch((error) => next(error));
+blogsRouter.delete("/:id", async (request, response, next) => {
+  await Blog.findByIdAndDelete(request.params.id);
+  response.status(204).end();
 });
 
 module.exports = blogsRouter;
