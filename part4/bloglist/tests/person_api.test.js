@@ -63,6 +63,24 @@ describe("Testing blogs API", () => {
     assert.strictEqual(response.body.likes, 0);
   });
 
+  test("request will be rejected when missing url property", async () => {
+    const newBlog = {
+      title: "No URL",
+      author: "Tester",
+    };
+
+    const response = await api.post("/api/blogs").send(newBlog).expect(400);
+  });
+
+  test("request will be rejected when missing title property", async () => {
+    const newBlog = {
+      author: "Tester",
+      url: "http://test.com/noTitle",
+    };
+
+    const response = await api.post("/api/blogs").send(newBlog).expect(400);
+  });
+
   after(async () => {
     await mongoose.connection.close();
   });
