@@ -35,50 +35,68 @@ describe("Testing blogs API", () => {
     assert.strictEqual(blog._id, undefined);
   });
 
-  test("a valid blog can be added", async () => {
-    const newBlog = {
-      title: "Test Blog",
-      author: "Tester",
-      url: "http://test.com",
-      likes: 5,
-    };
+  describe("addition of a new blog", () => {
+    test("a valid blog can be added", async () => {
+      const newBlog = {
+        title: "Test Blog",
+        author: "Tester",
+        url: "http://test.com",
+        likes: 5,
+      };
 
-    await api.post("/api/blogs").send(newBlog).expect(201);
-    const blogsAtEnd = await helper.blogsInDb();
-    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1);
+      await api.post("/api/blogs").send(newBlog).expect(201);
+      const blogsAtEnd = await helper.blogsInDb();
+      assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1);
 
-    const contents = blogsAtEnd.map((n) => n.title);
-    assert(contents.includes("Test Blog"));
+      const contents = blogsAtEnd.map((n) => n.title);
+      assert(contents.includes("Test Blog"));
+    });
+
+    test("likes defaults to 0 when missing from request", async () => {
+      const newBlog = {
+        title: "No Likes In This Blog",
+        author: "Tester",
+        url: "http://test.com/nolikes",
+      };
+
+      const response = await api.post("/api/blogs").send(newBlog).expect(201);
+
+      assert.strictEqual(response.body.likes, 0);
+    });
+
+    test("request will be rejected when missing url property", async () => {
+      const newBlog = {
+        title: "No URL",
+        author: "Tester",
+      };
+
+      const response = await api.post("/api/blogs").send(newBlog).expect(400);
+    });
+
+    test("request will be rejected when missing title property", async () => {
+      const newBlog = {
+        author: "Tester",
+        url: "http://test.com/noTitle",
+      };
+
+      const response = await api.post("/api/blogs").send(newBlog).expect(400);
+    });
   });
 
-  test("likes defaults to 0 when missing from request", async () => {
-    const newBlog = {
-      title: "No Likes In This Blog",
-      author: "Tester",
-      url: "http://test.com/nolikes",
-    };
+  describe("deletion of a blog", () => {
+    test("succeeds with status code 204 if id is valid", async () => {
+      const blogsAtStart = await helper.blogsInDb();
+      const blogToDelete = blogsAtStart[0];
 
-    const response = await api.post("/api/blogs").send(newBlog).expect(201);
+      await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
 
-    assert.strictEqual(response.body.likes, 0);
-  });
+      const blogsAtEnd = await helper.blogsInDb();
 
-  test("request will be rejected when missing url property", async () => {
-    const newBlog = {
-      title: "No URL",
-      author: "Tester",
-    };
+      const ids = blogsAtEnd.map((n) => n.id);
+      assert(!ids.includes(blogToDelete.id));
 
-    const response = await api.post("/api/blogs").send(newBlog).expect(400);
-  });
-
-  test("request will be rejected when missing title property", async () => {
-    const newBlog = {
-      author: "Tester",
-      url: "http://test.com/noTitle",
-    };
-
-    const response = await api.post("/api/blogs").send(newBlog).expect(400);
+      assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1);
+    });
   });
 
   after(async () => {
