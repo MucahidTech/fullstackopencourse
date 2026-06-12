@@ -51,6 +51,18 @@ describe("Testing blogs API", () => {
     assert(contents.includes("Test Blog"));
   });
 
+  test("likes defaults to 0 when missing from request", async () => {
+    const newBlog = {
+      title: "No Likes In This Blog",
+      author: "Tester",
+      url: "http://test.com/nolikes",
+    };
+
+    const response = await api.post("/api/blogs").send(newBlog).expect(201);
+
+    assert.strictEqual(response.body.likes, 0);
+  });
+
   after(async () => {
     await mongoose.connection.close();
   });
