@@ -70,7 +70,7 @@ describe("Testing blogs API", () => {
         author: "Tester",
       };
 
-      const response = await api.post("/api/blogs").send(newBlog).expect(400);
+      await api.post("/api/blogs").send(newBlog).expect(400);
     });
 
     test("request will be rejected when missing title property", async () => {
@@ -79,7 +79,7 @@ describe("Testing blogs API", () => {
         url: "http://test.com/noTitle",
       };
 
-      const response = await api.post("/api/blogs").send(newBlog).expect(400);
+      await api.post("/api/blogs").send(newBlog).expect(400);
     });
   });
 
@@ -96,6 +96,34 @@ describe("Testing blogs API", () => {
       assert(!ids.includes(blogToDelete.id));
 
       assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1);
+    });
+  });
+
+  describe("updating a blog", () => {
+    test("should update likes of a blog post", async () => {
+      const blogsAtStart = await api.get("/api/blogs");
+      const blogToUpdate = blogsAtStart.body[0];
+
+      const response = await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send({ likes: 20 })
+        .expect(200);
+
+      assert.strictEqual(response.body.likes, 20);
+
+      const blogsAtEnd = await api.get("/api/blogs");
+      const updatedBlogInDb = blogsAtEnd.body.find(
+        (blog) => blog.id === blogToUpdate.id,
+      );
+      assert.strictEqual(updatedBlogInDb.likes, 20);
+    });
+
+    test("should return 404 when blog does not exist", async () => {
+      const nonExistentId = "507f1f77bcf86cd799439011";
+      await api
+        .put(`/api/blogs/${nonExistentId}`)
+        .send({ likes: 5 })
+        .expect(404);
     });
   });
 
