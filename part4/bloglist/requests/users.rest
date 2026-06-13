@@ -1,7 +1,7 @@
 GET http://localhost:3003/api/users
 
 ###
-GET http://localhost:3003/api/users/6a2cfc1f871e5ae6d285738d
+GET http://localhost:3003/api/users/6a2d62ad3f2e5d0f3d280a10
 
 ###
 POST http://localhost:3003/api/users/
