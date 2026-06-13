@@ -1,0 +1,14 @@
+GET http://localhost:3003/api/users
+
+###
+GET http://localhost:3003/api/users/6a2cfc1f871e5ae6d285738d
+
+###
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "username": "firstUser",
+    "name": "Mucahid",
+    "password": "StrongPassword"
+}
