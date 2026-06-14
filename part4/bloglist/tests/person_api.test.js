@@ -5,13 +5,28 @@ const supertest = require("supertest");
 const app = require("../app");
 const helper = require("./test_helper");
 const Blog = require("../models/blog");
+const User = require("../models/user");
 
 const api = supertest(app);
+let authToken;
 
 describe("Testing blogs API", () => {
   beforeEach(async () => {
     await Blog.deleteMany({});
-    await Blog.insertMany(helper.initialBlogs);
+    await User.deleteMany({});
+
+    const user = await helper.createTestUser();
+    const loginResponse = await api.post("/api/login").send({
+      username: "testuser",
+      password: "testpass",
+    });
+    authToken = loginResponse.body.token;
+
+    const blogsWithUser = helper.initialBlogs.map((blog) => ({
+      ...blog,
+      user: user._id,
+    }));
+    await Blog.insertMany(blogsWithUser);
   });
 
   test("blogs are returned as json", async () => {
@@ -36,7 +51,7 @@ describe("Testing blogs API", () => {
   });
 
   describe("addition of a new blog", () => {
-    test("a valid blog can be added", async () => {
+    test("a valid blog can be added with valid token", async () => {
       const newBlog = {
         title: "Test Blog",
         author: "Tester",
@@ -44,12 +59,28 @@ describe("Testing blogs API", () => {
         likes: 5,
       };
 
-      await api.post("/api/blogs").send(newBlog).expect(201);
+      await api
+        .post("/api/blogs")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send(newBlog)
+        .expect(201);
       const blogsAtEnd = await helper.blogsInDb();
       assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1);
 
       const contents = blogsAtEnd.map((n) => n.title);
       assert(contents.includes("Test Blog"));
+    });
+
+    test("should return 401 Unauthorized when token is missing", async () => {
+      const newBlog = {
+        title: "No Token Blog",
+        author: "Tester",
+        url: "http://test.com/notoken",
+      };
+
+      const response = await api.post("/api/blogs").send(newBlog).expect(401);
+
+      assert(response.body.error.includes("token"));
     });
 
     test("likes defaults to 0 when missing from request", async () => {
@@ -59,7 +90,11 @@ describe("Testing blogs API", () => {
         url: "http://test.com/nolikes",
       };
 
-      const response = await api.post("/api/blogs").send(newBlog).expect(201);
+      const response = await api
+        .post("/api/blogs")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send(newBlog)
+        .expect(201);
 
       assert.strictEqual(response.body.likes, 0);
     });
@@ -70,7 +105,11 @@ describe("Testing blogs API", () => {
         author: "Tester",
       };
 
-      await api.post("/api/blogs").send(newBlog).expect(400);
+      await api
+        .post("/api/blogs")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send(newBlog)
+        .expect(400);
     });
 
     test("request will be rejected when missing title property", async () => {
@@ -79,16 +118,23 @@ describe("Testing blogs API", () => {
         url: "http://test.com/noTitle",
       };
 
-      await api.post("/api/blogs").send(newBlog).expect(400);
+      await api
+        .post("/api/blogs")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send(newBlog)
+        .expect(400);
     });
   });
 
   describe("deletion of a blog", () => {
-    test("succeeds with status code 204 if id is valid", async () => {
+    test("succeeds with status code 204 if id is valid and user is creator", async () => {
       const blogsAtStart = await helper.blogsInDb();
       const blogToDelete = blogsAtStart[0];
 
-      await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+      await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .set("Authorization", `Bearer ${authToken}`)
+        .expect(204);
 
       const blogsAtEnd = await helper.blogsInDb();
 
@@ -96,6 +142,13 @@ describe("Testing blogs API", () => {
       assert(!ids.includes(blogToDelete.id));
 
       assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1);
+    });
+
+    test("should return 401 when deleting without token", async () => {
+      const blogsAtStart = await helper.blogsInDb();
+      const blogToDelete = blogsAtStart[0];
+
+      await api.delete(`/api/blogs/${blogToDelete.id}`).expect(401);
     });
   });
 
