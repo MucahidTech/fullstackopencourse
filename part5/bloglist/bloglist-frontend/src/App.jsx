@@ -36,7 +36,7 @@ const App = () => {
       setPassword("");
       showNotification(`Login Successful`);
     } catch {
-      showNotification(`wrong credentials`, "error");
+      showNotification(`Wrong username or password`, "error");
     }
   };
 
@@ -57,12 +57,12 @@ const App = () => {
     try {
       const returnedBlog = await blogService.create(newBlog);
       setBlogs(blogs.concat(returnedBlog));
+      showNotification(`A new blog"${title}" by "${author}" added`);
       setTitle("");
       setAuthor("");
       setURL("");
-      showNotification(`Blog created`);
     } catch {
-      showNotification(`wrong credentials`, "error");
+      showNotification(`wrong format`, "error");
     }
   };
 
