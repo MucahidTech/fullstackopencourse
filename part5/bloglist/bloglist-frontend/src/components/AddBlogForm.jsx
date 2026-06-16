@@ -1,0 +1,56 @@
+import { useState } from "react";
+
+const AddBlogForm = ({ createBlog }) => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createBlog({ title, author, url });
+    setTitle("");
+    setAuthor("");
+    setUrl("");
+  };
+  return (
+    <>
+      <h2>Create New Blog</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>
+            Title
+            <input
+              type="text"
+              value={title}
+              onChange={({ target }) => setTitle(target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Author
+            <input
+              type="text"
+              value={author}
+              onChange={({ target }) => setAuthor(target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            URI
+            <input
+              type="text"
+              value={url}
+              onChange={({ target }) => setUrl(target.value)}
+            />
+          </label>
+        </div>
+
+        <button type="submit">Create</button>
+      </form>
+    </>
+  );
+};
+
+export default AddBlogForm;
