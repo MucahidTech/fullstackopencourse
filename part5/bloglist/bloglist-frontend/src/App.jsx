@@ -5,6 +5,7 @@ import "./index.css";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import LoginForm from "./components/LoginForm";
 
 const App = () => {
   const [notification, setNotification] = useState(null);
@@ -79,37 +80,6 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
-  const loginForm = () => {
-    return (
-      <>
-        <h2>Log in to application</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            <label>
-              username
-              <input
-                type="text"
-                value={username}
-                onChange={({ target }) => setUsername(target.value)}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              password
-              <input
-                type="password"
-                value={password}
-                onChange={({ target }) => setPassword(target.value)}
-              />
-            </label>
-          </div>
-          <button type="submit">login</button>
-        </form>
-      </>
-    );
-  };
-
   const addForm = () => {
     return (
       <>
@@ -170,7 +140,15 @@ const App = () => {
   return (
     <div>
       <Notification message={notification} />
-      {!user && loginForm()}
+      {!user && (
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        />
+      )}
       {user && <div>{blogForm()}</div>}
     </div>
   );
