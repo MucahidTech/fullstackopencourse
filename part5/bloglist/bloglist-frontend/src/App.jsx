@@ -102,7 +102,7 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
-  const sortedBloges = blogs.toSorted((a, b) => b.likes - a.likes);
+  const sortedBloges = blogs.sort((a, b) => b.likes - a.likes);
 
   const blogForm = () => {
     return (
