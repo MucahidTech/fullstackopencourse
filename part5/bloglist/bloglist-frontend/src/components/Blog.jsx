@@ -2,10 +2,8 @@ import { useState } from "react";
 
 const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [likesNum, setLikesNum] = useState(blog.likes);
 
   const handleAddLike = async () => {
-    setLikesNum(likesNum + 1);
     const updatedBlog = {
       user: blog.user.id,
       likes: blog.likes + 1,
@@ -43,9 +41,9 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
         <div>
           <p>{blog.url}</p>
           <p>
-            Likes: {likesNum} <button onClick={handleAddLike}>Like</button>
+            Likes: {blog.likes} <button onClick={handleAddLike}>Like</button>
           </p>
-          <p>{blog.user?.name || "Unknown author"}</p>
+          <p>{blog.user?.name || blog.author || "Unknown User"}</p>
           {userId === blog.user.username && (
             <button onClick={handleDelete}>remove</button>
           )}

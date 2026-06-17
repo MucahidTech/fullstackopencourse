@@ -43,27 +43,6 @@ const App = () => {
     setUser(null);
   };
 
-  const handleCreate = async (event) => {
-    event.preventDefault();
-
-    const newBlog = {
-      title,
-      author,
-      url,
-    };
-
-    try {
-      const returnedBlog = await blogService.create(newBlog);
-      setBlogs(blogs.concat(returnedBlog));
-      showNotification(`A new blog"${title}" by "${author}" added`);
-      setTitle("");
-      setAuthor("");
-      setURL("");
-    } catch {
-      showNotification(`wrong format`, "error");
-    }
-  };
-
   const addBlog = async (newBlog) => {
     try {
       const returnedBlog = await blogService.create(newBlog);
@@ -91,7 +70,7 @@ const App = () => {
 
   const removeBlog = async (id) => {
     try {
-      const removedBlog = await blogService.remove(id);
+      await blogService.remove(id);
       setBlogs(blogs.filter((blog) => blog.id !== id));
       showNotification(`Blog  has been deleted`);
     } catch (error) {
@@ -112,8 +91,7 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
-  const sortedBloges = blogs.sort((a, b) => b.likes - a.likes);
-  console.log(sortedBloges, user);
+  const sortedBloges = [...blogs].sort((a, b) => b.likes - a.likes);
 
   const blogForm = () => {
     return (
