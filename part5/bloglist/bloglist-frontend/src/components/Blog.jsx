@@ -13,7 +13,7 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
     };
 
     try {
-      const returnedBlog = await updateBlog(blog.id, updatedBlog);
+      await updateBlog(blog.id, updatedBlog);
     } catch (error) {
       console.error("Error liking blog:", error);
     }

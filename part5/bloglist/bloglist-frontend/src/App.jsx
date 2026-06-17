@@ -38,7 +38,7 @@ const App = () => {
     }
   };
 
-  const handleLogOut = (event) => {
+  const handleLogOut = () => {
     window.localStorage.removeItem("loggedBlogappUser");
     setUser(null);
   };
@@ -64,7 +64,7 @@ const App = () => {
       setBlogs(blogs.map((blog) => (blog.id === id ? mergedBlog : blog)));
       showNotification(`Liked '${mergedBlog.title}'`);
     } catch (error) {
-      showNotification("Error liking blog", "error");
+      showNotification(`Error liking blog: ${error}`, "error");
     }
   };
 
@@ -74,7 +74,7 @@ const App = () => {
       setBlogs(blogs.filter((blog) => blog.id !== id));
       showNotification(`Blog  has been deleted`);
     } catch (error) {
-      showNotification("Error deleting blog", "error");
+      showNotification(`Error deleting blog: ${error}`, "error");
     }
   };
 
