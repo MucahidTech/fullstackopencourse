@@ -89,6 +89,16 @@ const App = () => {
     }
   };
 
+  const removeBlog = async (id) => {
+    try {
+      const removedBlog = await blogService.remove(id);
+      setBlogs(blogs.filter((blog) => blog.id !== id));
+      showNotification(`Blog  has been deleted`);
+    } catch (error) {
+      showNotification("Error deleting blog", "error");
+    }
+  };
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
@@ -103,6 +113,7 @@ const App = () => {
   }, []);
 
   const sortedBloges = blogs.sort((a, b) => b.likes - a.likes);
+  console.log(sortedBloges, user);
 
   const blogForm = () => {
     return (
@@ -115,7 +126,13 @@ const App = () => {
           <AddBlogForm createBlog={addBlog} />
         </Togglable>
         {sortedBloges.map((blog) => (
-          <Blog key={blog.id} blog={blog} updateBlog={handleLike} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            updateBlog={handleLike}
+            userId={user.username}
+            deleteBlog={removeBlog}
+          />
         ))}
       </>
     );
