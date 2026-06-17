@@ -102,6 +102,8 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
+  const sortedBloges = blogs.toSorted((a, b) => b.likes - a.likes);
+
   const blogForm = () => {
     return (
       <>
@@ -112,7 +114,7 @@ const App = () => {
         <Togglable buttonLabel="Create New Blog">
           <AddBlogForm createBlog={addBlog} />
         </Togglable>
-        {blogs.map((blog) => (
+        {sortedBloges.map((blog) => (
           <Blog key={blog.id} blog={blog} updateBlog={handleLike} />
         ))}
       </>
