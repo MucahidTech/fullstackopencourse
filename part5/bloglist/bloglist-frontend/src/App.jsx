@@ -76,6 +76,16 @@ const App = () => {
     }
   };
 
+  const handleLike = async (id, updatedBlog) => {
+    try {
+      const returnedBlog = await blogService.update(id, updatedBlog);
+      setBlogs(blogs.map((blog) => (blog.id === id ? returnedBlog : blog)));
+      showNotification(`Liked '${returnedBlog.title}'`);
+    } catch (error) {
+      showNotification("Error liking blog", "error");
+    }
+  };
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
@@ -100,7 +110,7 @@ const App = () => {
           <AddBlogForm createBlog={addBlog} />
         </Togglable>
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} updateBlog={handleLike} />
         ))}
       </>
     );
