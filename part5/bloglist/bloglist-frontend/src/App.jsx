@@ -79,8 +79,11 @@ const App = () => {
   const handleLike = async (id, updatedBlog) => {
     try {
       const returnedBlog = await blogService.update(id, updatedBlog);
-      setBlogs(blogs.map((blog) => (blog.id === id ? returnedBlog : blog)));
-      showNotification(`Liked '${returnedBlog.title}'`);
+      const existingBlog = blogs.find((b) => b.id === id);
+      const mergedBlog = { ...returnedBlog, user: existingBlog.user };
+
+      setBlogs(blogs.map((blog) => (blog.id === id ? mergedBlog : blog)));
+      showNotification(`Liked '${mergedBlog.title}'`);
     } catch (error) {
       showNotification("Error liking blog", "error");
     }
