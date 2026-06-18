@@ -4,8 +4,6 @@ import userEvent from "@testing-library/user-event";
 
 import Blog from "../components/Blog";
 
-const mockHandler = vi.fn();
-
 const blog = {
   user: "samir",
   likes: 1,
@@ -38,4 +36,19 @@ test("shows url and likes after clicking view button", async () => {
 
   const titleElement = screen.getByTestId("blog-title");
   const authorElement = screen.getByTestId("blog-author");
+});
+
+test("handleAddLike will called as many as like button get clicked", async () => {
+  const mockHandler = vi.fn();
+  render(<Blog blog={blog} updateBlog={mockHandler} />);
+
+  const user = userEvent.setup();
+  const button = screen.getByText("view");
+  await user.click(button);
+
+  const likeButton = screen.getByText("like");
+  await user.click(likeButton);
+  await user.click(likeButton);
+
+  expect(mockHandler.mock.calls).toHaveLength(2);
 });
