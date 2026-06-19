@@ -38,4 +38,21 @@ describe("Blog app", () => {
       await expect(page.getByText("Mucahid logged in")).not.toBeVisible();
     });
   });
+
+  describe("When logged in", () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, "firstUser", "StrongPassword");
+      await page.getByText("Mucahid logged in").waitFor();
+    });
+
+    test("a new blog can be created", async ({ page }) => {
+      await page.getByRole("button", { name: "Create New Blog" }).click();
+      await page.getByLabel("Title").fill("Test Blog");
+      await page.getByLabel("Author").fill("PlayWright");
+      await page.getByLabel("URI").fill("test.com");
+      await page.getByRole("button", { name: "Create" }).click();
+
+      await expect(page.getByText("A new blog")).toBeVisible();
+    });
+  });
 });
