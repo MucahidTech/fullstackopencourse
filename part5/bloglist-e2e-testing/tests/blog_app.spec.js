@@ -40,44 +40,33 @@ describe("Blog app", () => {
   });
 
   describe("When logged in", () => {
+    let blogElement;
     beforeEach(async ({ page }) => {
       await loginWith(page, "firstUser", "StrongPassword");
+      await createBlog(page);
+      blogElement = page
+        .getByTestId("blog-title")
+        .filter({ hasText: "Test Blog" })
+        .locator("..");
     });
 
     test("a new blog can be created", async ({ page }) => {
-      await createBlog(page);
-      await expect(
-        page.getByTestId("blog-title").filter({ hasText: "Test Blog" }),
-      ).toBeVisible();
+      await expect(blogElement).toBeVisible();
     });
     test("a blog can be liked", async ({ page }) => {
-      const blogTitle = "Blog to liked";
-      await createBlog(page, blogTitle);
-
-      const blogElement = page
-        .getByTestId("blog-title")
-        .filter({ hasText: blogTitle })
-        .locator("..");
       await blogElement.getByRole("button", { name: "view" }).click();
       await page.getByRole("button", { name: "like" }).click();
 
-      const likesCount = page.getByTestId("blog-likes");
-      await expect(likesCount).toContainText("1");
+      await expect(page.getByTestId("blog-likes")).toHaveText("1");
     });
     test("a blog can be deleted", async ({ page }) => {
       page.on("dialog", (dialog) => dialog.accept());
-      const blogTitle = "Blog to delete";
-      await createBlog(page, blogTitle);
 
-      const blogElement = page
-        .getByTestId("blog-title")
-        .filter({ hasText: blogTitle })
-        .locator("..");
       await blogElement.getByRole("button", { name: "view" }).click();
-      await page.getByTestId("blog-remove").click;
+      await page.getByTestId("blog-remove").click();
 
       await expect(
-        page.getByTestId("blog").filter({ hasText: blogTitle }),
+        page.getByTestId("blog").filter({ hasText: "Test blog" }),
       ).not.toBeVisible();
     });
   });
