@@ -69,5 +69,26 @@ describe("Blog app", () => {
         page.getByTestId("blog").filter({ hasText: "Test blog" }),
       ).not.toBeVisible();
     });
+    test("only blog creater can delete it", async ({ page, request }) => {
+      // test.setTimeout(3000);
+
+      await page.getByRole("button", { name: "logout" }).click();
+      await request.post("http://localhost:3003/api/users", {
+        data: {
+          name: "Ahmed",
+          username: "secondUser",
+          password: "Password",
+        },
+      });
+      await loginWith(page, "secondUser", "Password");
+
+      const targetBlog = page
+        .getByTestId("blog-title")
+        .filter({ hasText: "Test Blog" })
+        .locator("..");
+
+      await targetBlog.getByRole("button", { name: "view" }).click();
+      await expect(targetBlog.getByTestId("blog-remove")).not.toBeVisible();
+    });
   });
 });
