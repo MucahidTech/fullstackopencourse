@@ -90,5 +90,44 @@ describe("Blog app", () => {
       await targetBlog.getByRole("button", { name: "view" }).click();
       await expect(targetBlog.getByTestId("blog-remove")).not.toBeVisible();
     });
+    test("blogs are ordered by likes", async ({ page, request }) => {
+      const userJson = await page.evaluate(() => {
+        return window.localStorage.getItem("loggedBlogappUser");
+      });
+
+      const user = JSON.parse(userJson);
+      const token = `Bearer ${user.token}`;
+
+      const topBlogResponse = await request.post(
+        "http://localhost:3003/api/blogs",
+        {
+          data: {
+            title: "The Most Popular Blog",
+            author: "Expert",
+            url: "top.com",
+            likes: 10,
+          },
+          headers: { Authorization: token },
+        },
+      );
+
+      await request.post("http://localhost:3003/api/blogs", {
+        data: {
+          title: "The Medium Popular Blog",
+          author: "Senior",
+          url: "medium.com",
+          likes: 5,
+        },
+        headers: { Authorization: token },
+      });
+
+      await page.reload({ waitUntil: "networkidle" });
+
+      const blogTitles = page.getByTestId("blog-title");
+
+      await expect(blogTitles.nth(0)).toHaveText("The Most Popular Blog");
+      await expect(blogTitles.nth(1)).toHaveText("The Medium Popular Blog");
+      await expect(blogTitles.nth(2)).toHaveText("Test Blog");
+    });
   });
 });
