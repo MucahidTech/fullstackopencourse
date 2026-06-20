@@ -64,5 +64,21 @@ describe("Blog app", () => {
       const likesCount = page.getByTestId("blog-likes");
       await expect(likesCount).toContainText("1");
     });
+    test("a blog can be deleted", async ({ page }) => {
+      page.on("dialog", (dialog) => dialog.accept());
+      const blogTitle = "Blog to delete";
+      await createBlog(page, blogTitle);
+
+      const blogElement = page
+        .getByTestId("blog-title")
+        .filter({ hasText: blogTitle })
+        .locator("..");
+      await blogElement.getByRole("button", { name: "view" }).click();
+      await page.getByTestId("blog-remove").click;
+
+      await expect(
+        page.getByTestId("blog").filter({ hasText: blogTitle }),
+      ).not.toBeVisible();
+    });
   });
 });

@@ -47,7 +47,9 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
           </p>
           <p>{blog.user?.name || "Unknown author"}</p>
           {userId === blog.user?.username && (
-            <button onClick={handleDelete}>remove</button>
+            <button data-testid="blog-remove" onClick={handleDelete}>
+              remove
+            </button>
           )}
         </div>
       )}
