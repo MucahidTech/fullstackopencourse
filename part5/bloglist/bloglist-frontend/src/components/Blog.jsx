@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
-  const [showDetails, setShowDetails] = useState(false);
+  const navigate = useNavigate();
+
+  if (!blog) {
+    return null;
+  }
 
   const handleAddLike = async () => {
     const updatedBlog = {
@@ -23,6 +27,7 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
     if (confirm(`Are you sure you want to delete blog titled ${blog.title}?`)) {
       try {
         await deleteBlog(blog.id);
+        navigate("/");
       } catch (error) {
         console.error("Error deleting blog:", error);
       }
@@ -31,28 +36,23 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
 
   return (
     <div className="blogStyle">
-      <div>
+      <h2>
+        <span data-testid="blog-author">{blog.author}: </span>
         <span data-testid="blog-title">{blog.title}</span>
-        <span data-testid="blog-author">{blog.author}</span>
-        <button onClick={() => setShowDetails(!showDetails)}>
-          {showDetails ? "hide" : "view"}
-        </button>
+      </h2>
+      <div data-testid="blog-details">
+        <p data-testid="blog-url">{blog.url}</p>
+        <p>
+          Likes: <span data-testid="blog-likes">{blog.likes}</span>
+          {userId && <button onClick={handleAddLike}>like</button>}
+        </p>
+        <p>Added by {blog.user?.name || "Unknown author"}</p>
+        {userId === blog.user?.username && (
+          <button data-testid="blog-remove" onClick={handleDelete}>
+            remove
+          </button>
+        )}
       </div>
-      {showDetails && (
-        <div data-testid="blog-details">
-          <p data-testid="blog-url">{blog.url}</p>
-          <p>
-            Likes: <span data-testid="blog-likes">{blog.likes}</span>
-            <button onClick={handleAddLike}>like</button>
-          </p>
-          <p>{blog.user?.name || "Unknown author"}</p>
-          {userId === blog.user?.username && (
-            <button data-testid="blog-remove" onClick={handleDelete}>
-              remove
-            </button>
-          )}
-        </div>
-      )}
     </div>
   );
 };
