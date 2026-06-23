@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import Notification from "./components/Notification";
 import "./index.css";
 
-import Blog from "./components/Blog";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
+import BlogForm from "./components/BlogForm";
 import AddBlogForm from "./components/AddBlogForm";
 import Togglable from "./components/Togglable";
 
@@ -22,6 +23,8 @@ const App = () => {
     setTimeout(() => setNotification(null), 5000);
   };
 
+  const navigate = useNavigate();
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -33,6 +36,7 @@ const App = () => {
       setUsername("");
       setPassword("");
       showNotification(`Login Successful`);
+      navigate("/");
     } catch {
       showNotification(`Wrong username or password`, "error");
     }
@@ -41,6 +45,7 @@ const App = () => {
   const handleLogOut = () => {
     window.localStorage.removeItem("loggedBlogappUser");
     setUser(null);
+    navigate("/");
   };
 
   const addBlog = async (newBlog) => {
@@ -93,43 +98,54 @@ const App = () => {
 
   const sortedBloges = [...blogs].sort((a, b) => b.likes - a.likes);
 
-  const blogForm = () => {
-    return (
-      <>
-        <h2>blogs</h2>
-        <p>
-          {user.name} logged in <button onClick={handleLogOut}>logout</button>
-        </p>
-        <Togglable buttonLabel="Create New Blog">
-          <AddBlogForm createBlog={addBlog} />
-        </Togglable>
-        {sortedBloges.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            updateBlog={handleLike}
-            userId={user.username}
-            deleteBlog={removeBlog}
-          />
-        ))}
-      </>
-    );
+  const padding = {
+    padding: 5,
   };
 
   return (
-    <div>
+    <>
+      <div>
+        <Link style={padding} to="/">
+          Blogs
+        </Link>
+        {!user ? (
+          <Link style={padding} to="/login">
+            login
+          </Link>
+        ) : (
+          <button style={padding} onClick={handleLogOut}>
+            logout
+          </button>
+        )}
+      </div>
       <Notification message={notification} />
-      {!user && (
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <BlogForm
+              sortedBloges={sortedBloges}
+              user={user}
+              handleLike={handleLike}
+              removeBlog={removeBlog}
+            />
+          }
         />
-      )}
-      {user && <div>{blogForm()}</div>}
-    </div>
+        <Route
+          path="/login"
+          element={
+            <LoginForm
+              username={username}
+              password={password}
+              handleUsernameChange={({ target }) => setUsername(target.value)}
+              handlePasswordChange={({ target }) => setPassword(target.value)}
+              handleSubmit={handleLogin}
+            />
+          }
+        />
+      </Routes>
+    </>
   );
 };
 
