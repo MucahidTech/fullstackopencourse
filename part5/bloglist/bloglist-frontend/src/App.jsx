@@ -53,6 +53,7 @@ const App = () => {
     try {
       const returnedBlog = await blogService.create(newBlog);
       setBlogs(blogs.concat(returnedBlog));
+
       showNotification(
         `A new blog "${newBlog.title}" by "${newBlog.author}" added`,
       );
@@ -112,6 +113,9 @@ const App = () => {
         <Link style={padding} to="/">
           Blogs
         </Link>
+        <Link style={padding} to="/create">
+          Add Blog
+        </Link>
         {!user ? (
           <Link style={padding} to="/login">
             login
@@ -137,6 +141,7 @@ const App = () => {
           }
         />
         <Route path="/" element={<BlogForm sortedBloges={sortedBloges} />} />
+        <Route path="/create" element={<AddBlogForm createBlog={addBlog} />} />
         <Route
           path="/login"
           element={
