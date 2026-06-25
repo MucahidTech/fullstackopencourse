@@ -113,17 +113,19 @@ const App = () => {
         <Link style={padding} to="/">
           Blogs
         </Link>
-        <Link style={padding} to="/create">
-          Add Blog
-        </Link>
         {!user ? (
           <Link style={padding} to="/login">
             login
           </Link>
         ) : (
-          <button style={padding} onClick={handleLogOut}>
-            logout
-          </button>
+          <>
+            <Link style={padding} to="/create">
+              Add Blog
+            </Link>
+            <button style={padding} onClick={handleLogOut}>
+              logout
+            </button>
+          </>
         )}
       </div>
       <Notification message={notification} />
