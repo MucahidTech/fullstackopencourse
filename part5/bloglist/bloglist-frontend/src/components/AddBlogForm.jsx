@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { TextField, Button, Stack } from "@mui/material";
 
 const AddBlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState("");
@@ -19,38 +20,35 @@ const AddBlogForm = ({ createBlog }) => {
     <>
       <h2>Create New Blog</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Title
-            <input
-              type="text"
-              value={title}
-              onChange={({ target }) => setTitle(target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Author
-            <input
-              type="text"
-              value={author}
-              onChange={({ target }) => setAuthor(target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            URI
-            <input
-              type="text"
-              value={url}
-              onChange={({ target }) => setUrl(target.value)}
-            />
-          </label>
-        </div>
+        <Stack spacing={2} sx={{ width: 300 }}>
+          <TextField
+            size="small"
+            label="Title"
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
+          />
 
-        <button type="submit">Create</button>
+          <TextField
+            size="small"
+            label="Author"
+            value={author}
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+          <TextField
+            size="small"
+            label="URL"
+            value={url}
+            onChange={({ target }) => setUrl(target.value)}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ alignSelf: "flex-start" }}
+          >
+            Create
+          </Button>
+        </Stack>
       </form>
     </>
   );

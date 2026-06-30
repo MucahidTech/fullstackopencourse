@@ -3,6 +3,8 @@ import Notification from "./components/Notification";
 import "./index.css";
 
 import { Routes, Route, Link, useNavigate, useMatch } from "react-router-dom";
+import { Container } from "@mui/material";
+
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
@@ -108,7 +110,7 @@ const App = () => {
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null;
 
   return (
-    <>
+    <Container>
       <div>
         <Link style={padding} to="/">
           Blogs
@@ -157,7 +159,7 @@ const App = () => {
           }
         />
       </Routes>
-    </>
+    </Container>
   );
 };
 

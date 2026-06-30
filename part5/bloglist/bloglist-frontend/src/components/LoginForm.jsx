@@ -1,3 +1,5 @@
+import { TextField, Button, Stack } from "@mui/material";
+
 const LoginForm = ({
   handleSubmit,
   handleUsernameChange,
@@ -9,27 +11,28 @@ const LoginForm = ({
     <>
       <h2>Log in to application</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            username
-            <input
-              type="text"
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            password
-            <input
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </label>
-        </div>
-        <button type="submit">login</button>
+        <Stack spacing={2} sx={{ width: 300 }}>
+          <TextField
+            variant="standard"
+            label="username"
+            value={username}
+            onChange={handleUsernameChange}
+          />
+          <TextField
+            variant="standard"
+            label="password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ alignSelf: "flex-start" }}
+          >
+            login
+          </Button>
+        </Stack>
       </form>
     </>
   );
