@@ -1,9 +1,18 @@
+import { Alert } from "@mui/material";
+
 const Notification = ({ message }) => {
   if (message === null) {
     return null;
   }
 
-  return <div className={`notification ${message.type}`}>{message.text}</div>;
+  return (
+    <Alert
+      style={{ marginTop: 10, marginBottom: 10 }}
+      severity={message.type || "success"}
+    >
+      {message.text}
+    </Alert>
+  );
 };
 
 export default Notification;
