@@ -3,7 +3,14 @@ import Notification from "./components/Notification";
 import "./index.css";
 
 import { Routes, Route, Link, useNavigate, useMatch } from "react-router-dom";
-import { Container } from "@mui/material";
+import {
+  Container,
+  AppBar,
+  Toolbar,
+  Button,
+  Typography,
+  Box,
+} from "@mui/material";
 
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -111,25 +118,39 @@ const App = () => {
 
   return (
     <Container>
-      <div>
-        <Link style={padding} to="/">
-          Blogs
-        </Link>
-        {!user ? (
-          <Link style={padding} to="/login">
-            login
-          </Link>
-        ) : (
-          <>
-            <Link style={padding} to="/create">
-              Add Blog
-            </Link>
-            <button style={padding} onClick={handleLogOut}>
-              logout
-            </button>
-          </>
-        )}
-      </div>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 0 }}>
+            Blog App
+          </Typography>
+
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Button color="inherit" component={Link} to="/">
+            Blogs
+          </Button>
+          {!user ? (
+            <Button color="inherit" component={Link} to="/login">
+              login
+            </Button>
+          ) : (
+            <>
+              <Button color="inherit" component={Link} to="/create">
+                new blog
+              </Button>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/notes"
+                onClick={handleLogOut}
+              >
+                logout
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+
       <Notification message={notification} />
 
       <Routes>
