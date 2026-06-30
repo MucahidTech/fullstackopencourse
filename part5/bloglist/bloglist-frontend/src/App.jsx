@@ -141,7 +141,7 @@ const App = () => {
               <Button
                 color="inherit"
                 component={Link}
-                to="/notes"
+                to="/"
                 onClick={handleLogOut}
               >
                 logout

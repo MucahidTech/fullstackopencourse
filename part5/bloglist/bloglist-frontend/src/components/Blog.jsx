@@ -1,11 +1,22 @@
 import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  Chip,
+  Divider,
+  IconButton,
+} from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import DeleteIcon from "@mui/icons-material/Delete";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
   const navigate = useNavigate();
 
-  if (!blog) {
-    return null;
-  }
+  if (!blog) return null;
 
   const handleAddLike = async () => {
     const updatedBlog = {
@@ -24,7 +35,7 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
   };
 
   const handleDelete = async () => {
-    if (confirm(`Are you sure you want to delete blog titled ${blog.title}?`)) {
+    if (window.confirm(`Delete blog "${blog.title}"?`)) {
       try {
         await deleteBlog(blog.id);
         navigate("/");
@@ -35,25 +46,106 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
   };
 
   return (
-    <div className="blogStyle">
-      <h2>
-        <span data-testid="blog-author">{blog.author}: </span>
-        <span data-testid="blog-title">{blog.title}</span>
-      </h2>
-      <div data-testid="blog-details">
-        <p data-testid="blog-url">{blog.url}</p>
-        <p>
-          Likes: <span data-testid="blog-likes">{blog.likes}</span>
-          {userId && <button onClick={handleAddLike}>like</button>}
-        </p>
-        <p>Added by {blog.user?.name || "Unknown author"}</p>
-        {userId === blog.user?.username && (
-          <button data-testid="blog-remove" onClick={handleDelete}>
-            remove
-          </button>
-        )}
-      </div>
-    </div>
+    <Card
+      sx={{
+        maxWidth: 700,
+        margin: "20px auto",
+        padding: 2,
+        boxShadow: 3,
+        borderRadius: 2,
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <CardContent>
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          sx={{ fontWeight: "bold", color: "#1976d2" }}
+        >
+          {blog.title}
+        </Typography>
+
+        <Typography
+          variant="subtitle1"
+          color="text.secondary"
+          gutterBottom
+          sx={{ marginBottom: 2 }}
+        >
+          by {blog.author}
+        </Typography>
+
+        <Divider sx={{ marginY: 2 }} />
+
+        <Box sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
+          <OpenInNewIcon sx={{ marginRight: 1, color: "#1976d2" }} />
+          <Typography
+            variant="body1"
+            component="a"
+            href={blog.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              color: "#1976d2",
+              textDecoration: "none",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
+            {blog.url}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 2,
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Chip
+              icon={<FavoriteIcon />}
+              label={`${blog.likes} likes`}
+              color="error"
+              variant="outlined"
+              sx={{ marginRight: 1 }}
+            />
+            {userId && (
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<FavoriteIcon />}
+                onClick={handleAddLike}
+                sx={{ borderRadius: 20 }}
+              >
+                Like
+              </Button>
+            )}
+          </Box>
+
+          {userId === blog.user?.username && (
+            <Button
+              variant="contained"
+              color="error"
+              size="small"
+              startIcon={<DeleteIcon />}
+              onClick={handleDelete}
+              sx={{ borderRadius: 20 }}
+            >
+              Delete
+            </Button>
+          )}
+        </Box>
+
+        <Divider sx={{ marginY: 2 }} />
+
+        <Typography variant="body2" color="text.secondary">
+          <strong>Added by:</strong> {blog.user?.name || "Unknown author"}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
