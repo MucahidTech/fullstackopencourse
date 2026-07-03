@@ -1,4 +1,4 @@
-import { useAnecdoteActions, getId } from "../store";
+import { useAnecdoteActions } from "../store";
 
 const AnecdoteForm = () => {
   const { add } = useAnecdoteActions();
@@ -6,7 +6,7 @@ const AnecdoteForm = () => {
   const addAnecdote = (e) => {
     e.preventDefault();
     const content = e.target.anecdote.value;
-    add({ id: getId(), content, votes: 0 });
+    add(content);
     e.target.reset();
   };
 
