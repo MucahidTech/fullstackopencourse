@@ -1,14 +1,6 @@
 import { create } from "zustand";
 import anecdoteService from "./services/anecdotes";
 
-// const getId = () => (100000 * Math.random()).toFixed(0);
-
-// const asObject = (anecdote) => ({
-//   content: anecdote,
-//   id: getId(),
-//   votes: 0,
-// });
-
 const useAnecdoteStore = create((set, get) => ({
   anecdotes: [],
   filter: "",
@@ -37,6 +29,30 @@ const useAnecdoteStore = create((set, get) => ({
   },
 }));
 
+let timeoutId = null;
+
+const useNotificationStore = create((set) => ({
+  message: null,
+  actions: {
+    showNotification: (message) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      set({ message });
+
+      timeoutId = setTimeout(() => {
+        set({ message: null });
+        timeoutId = null;
+      }, 5000);
+    },
+
+    clearNotification: () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      set({ message: null });
+    },
+  },
+}));
+
 export const useAnecdotes = () => {
   const anecdotes = useAnecdoteStore((state) => state.anecdotes);
   const filter = useAnecdoteStore((state) => state.filter);
@@ -47,3 +63,9 @@ export const useAnecdotes = () => {
 
 export const useAnecdoteActions = () =>
   useAnecdoteStore((state) => state.actions);
+
+export const useNotification = () =>
+  useNotificationStore((state) => state.message);
+
+export const useNotificationActions = () =>
+  useNotificationStore((state) => state.actions);
