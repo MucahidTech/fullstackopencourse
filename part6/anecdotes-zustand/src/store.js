@@ -1,26 +1,30 @@
 import { create } from "zustand";
 import anecdoteService from "./services/anecdotes";
 
-const getId = () => (100000 * Math.random()).toFixed(0);
+// const getId = () => (100000 * Math.random()).toFixed(0);
 
-const asObject = (anecdote) => ({
-  content: anecdote,
-  id: getId(),
-  votes: 0,
-});
+// const asObject = (anecdote) => ({
+//   content: anecdote,
+//   id: getId(),
+//   votes: 0,
+// });
 
-const useAnecdoteStore = create((set) => ({
+const useAnecdoteStore = create((set, get) => ({
   anecdotes: [],
   filter: "",
   actions: {
-    vote: (id) =>
+    vote: async (id) => {
+      const anecdote = get().anecdotes.find((n) => n.id === id);
+      const updated = await anecdoteService.update(id, {
+        ...anecdote,
+        votes: anecdote.votes + 1,
+      });
       set((state) => ({
         anecdotes: state.anecdotes.map((anecdote) =>
-          anecdote.id === id
-            ? { ...anecdote, votes: anecdote.votes + 1 }
-            : anecdote,
+          anecdote.id === id ? updated : anecdote,
         ),
-      })),
+      }));
+    },
     add: async (content) => {
       const anecdote = await anecdoteService.createNew(content);
       set((state) => ({ anecdotes: [...state.anecdotes, anecdote] }));
