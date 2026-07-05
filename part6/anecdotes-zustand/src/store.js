@@ -21,8 +21,10 @@ const useAnecdoteStore = create((set) => ({
             : anecdote,
         ),
       })),
-    add: (anecdote) =>
-      set((state) => ({ anecdotes: [...state.anecdotes, asObject(anecdote)] })),
+    add: async (content) => {
+      const anecdote = await anecdoteService.createNew(content);
+      set((state) => ({ anecdotes: [...state.anecdotes, anecdote] }));
+    },
     setFilter: (value) => set(() => ({ filter: value })),
     initialize: async () => {
       const anecdotes = await anecdoteService.getAll();
