@@ -75,3 +75,5 @@ export const useNotification = () =>
 
 export const useNotificationActions = () =>
   useNotificationStore((state) => state.actions);
+
+export default useAnecdoteStore;
