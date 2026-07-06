@@ -32,4 +32,19 @@ describe("useAnecdotesActions", () => {
     const { result: anecdotesResult } = renderHook(() => useAnecdotes());
     expect(anecdotesResult.current).toEqual(mockAnecdotes);
   });
+
+  it("filter anecdotes according to user search", async () => {
+    const anecdote1 = { id: 1, content: "Test", votes: 0 };
+    const anecdote2 = { id: 2, content: "filtered", votes: 0 };
+    useAnecdoteStore.setState({ anecdotes: [anecdote1, anecdote2] });
+
+    const { result } = renderHook(() => useAnecdoteActions());
+
+    await act(async () => {
+      await result.current.setFilter("filter");
+    });
+
+    const { result: anecdotesResult } = renderHook(() => useAnecdotes());
+    expect(anecdotesResult.current).toEqual([anecdote2]);
+  });
 });
