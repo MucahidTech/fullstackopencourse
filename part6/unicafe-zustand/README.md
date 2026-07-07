@@ -1,16 +1,27 @@
-# React + Vite
+# 🍴 Unicafe (Zustand)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Reimplementation of the classic Unicafe feedback app, now with state management powered by Zustand. Built through exercise 6.1 of Full Stack Open Course.
 
-Currently, two official plugins are available:
+## 🎯 What it does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Collects user feedback (good, neutral, bad)
+- Displays statistics: total, average score, and positive feedback percentage
+- Uses a global Zustand store for state management
 
-## React Compiler
+## 🧠 What I practiced
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 💎 Managing application state with Zustand
+- 📊 Separating state (values) from actions (functions) using the `actions` pattern
+- 🧩 Creating custom hooks (`useStatistics`, `useStatisticsActions`) for cleaner component consumption
 
-## Expanding the ESLint configuration
+## 🚀 How to run
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cd part6/unicafe-zustand
+npm install
+npm run dev
+```
+
+## 📚 Reference
+
+- [Exercise 6.1](https://fullstackopen.com/en/part6/flux_architecture_and_zustand#exercise-6-1)

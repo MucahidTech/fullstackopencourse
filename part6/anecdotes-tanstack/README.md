@@ -1,16 +1,34 @@
-# React + Vite
+# ⚛️ Anecdotes (TanStack Query)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern anecdote app leveraging TanStack Query for efficient server-state management, with notifications handled via React Context. Built through exercises 6.16 - 6.22 of Full Stack Open Course.
 
-Currently, two official plugins are available:
+## 🎯 What it does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 📖 Fetches and displays anecdotes from a server
+- ➕ Adds new anecdotes with content validation (min 5 characters)
+- 🗳️ Votes on anecdotes with automatic UI updates
+- 🔔 Displays success and error notifications using the Context API
 
-## React Compiler
+## 🧠 What I practiced
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🔄 Managing server-state with TanStack Query (`useQuery`, `useMutation`)
+- 📦 Handling client-state and notifications with React Context API
+- 🧹 Creating custom hooks (`useAnecdotes`, `useNotification`)
+- 🌐 Making HTTP requests using the native Fetch API
+- 🧪 Error handling for network failures and server validation
 
-## Expanding the ESLint configuration
+## 🚀 How to run
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Install dependencies and start the JSON server
+cd part6/anecdotes-tanstack
+npm install
+npm run server
+
+# In a new terminal, start the React app
+npm run dev
+```
+
+## 📚 Reference
+
+- [Exercises 6.16 - 6.22](https://fullstackopen.com/en/part6/react_query_context_api)

@@ -1,16 +1,36 @@
-# React + Vite
+# 💬 Anecdotes (Zustand)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-featured anecdote voting app with server communication, filtering, and notifications, all managed with Zustand. Built through exercises 6.2 - 6.15 of Full Stack Open Course.
 
-Currently, two official plugins are available:
+## 🎯 What it does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 🗳️ Vote for your favorite anecdotes
+- ➕ Add new anecdotes (with server persistence)
+- 🔍 Filter anecdotes by content
+- 🔔 Shows notifications for votes and additions
+- 🗑️ Delete anecdotes with zero votes
 
-## React Compiler
+## 🧠 What I practiced
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🗄️ Managing complex state with Zustand (anecdotes, filter, notifications)
+- 🌐 Fetching and persisting data to a JSON Server backend using the Fetch API
+- 🧪 Testing Zustand stores and custom hooks with Vitest and React Testing Library
+- 🔄 Sorting anecdotes immutably with `toSorted`
+- 🧩 Creating custom hooks (`useAnecdotes`, `useAnecdoteActions`, `useNotification`)
 
-## Expanding the ESLint configuration
+## 🚀 How to run
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Install dependencies and start the JSON server
+cd part6/anecdotes-zustand
+npm install
+npm run server
+
+# In a new terminal, start the React app
+npm run dev
+```
+
+## 📚 Reference
+
+- [Exercises 6.2 - 6.6](https://fullstackopen.com/en/part6/flux_architecture_and_zustand#exercises-6-2-6-6)
+- [Exercises 6.6 - 6.15](https://fullstackopen.com/en/part6/complex_state_fetch_testing)
