@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Menu from "./components/Menu";
 import AnecdoteList from "./components/AnecdoteList";
@@ -9,9 +8,7 @@ import CreateNew from "./components/CreateNew";
 import { useAnecdotes } from "./hooks";
 
 const App = () => {
-  const anecdotes = useAnecdotes();
-
-  const addAnecdote = () => {};
+  const { anecdotes, addAnecdote } = useAnecdotes();
 
   return (
     <Router>
