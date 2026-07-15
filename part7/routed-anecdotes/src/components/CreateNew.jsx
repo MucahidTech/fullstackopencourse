@@ -11,7 +11,12 @@ const CreateNew = ({ addAnecdote }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addAnecdote({ content, author, info, votes: 0 });
+    addAnecdote({
+      content: content.value,
+      author: author.value,
+      info: info.value,
+      votes: 0,
+    });
     navigate("/");
   };
   const handleReset = () => {
@@ -20,24 +25,31 @@ const CreateNew = ({ addAnecdote }) => {
     info.reset();
   };
 
+  const getFieldProps = (field) => {
+    const { reset, ...props } = field;
+    return props;
+  };
+
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} />
+          <input {...getFieldProps(content)} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...getFieldProps(author)} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...getFieldProps(info)} />
         </div>
         <button>create</button>
-        <button onClick={handleReset}>reset</button>
+        <button type="button" onClick={handleReset}>
+          reset
+        </button>
       </form>
     </div>
   );
