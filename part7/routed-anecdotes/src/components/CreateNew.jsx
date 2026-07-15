@@ -14,6 +14,11 @@ const CreateNew = ({ addAnecdote }) => {
     addAnecdote({ content, author, info, votes: 0 });
     navigate("/");
   };
+  const handleReset = () => {
+    content.reset();
+    author.reset();
+    info.reset();
+  };
 
   return (
     <div>
@@ -32,6 +37,7 @@ const CreateNew = ({ addAnecdote }) => {
           <input {...info} />
         </div>
         <button>create</button>
+        <button onClick={handleReset}>reset</button>
       </form>
     </div>
   );
