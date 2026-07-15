@@ -5,36 +5,19 @@ import About from "./components/About";
 import Footer from "./components/Footer";
 import CreateNew from "./components/CreateNew";
 
-import { useAnecdotes } from "./hooks";
-
-const App = () => {
-  const { anecdotes, addAnecdote, deleteAnecdote } = useAnecdotes();
-
-  return (
-    <Router>
-      <div>
-        <h1>Software anecdotes</h1>
-        <Menu />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <AnecdoteList
-                anecdotes={anecdotes}
-                handleDelete={deleteAnecdote}
-              />
-            }
-          />
-          <Route
-            path="/create"
-            element={<CreateNew addAnecdote={addAnecdote} />}
-          />
-          <Route path="/about" element={<About />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
-  );
-};
+const App = () => (
+  <Router>
+    <div>
+      <h1>Software anecdotes</h1>
+      <Menu />
+      <Routes>
+        <Route path="/" element={<AnecdoteList />} />
+        <Route path="/create" element={<CreateNew />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+      <Footer />
+    </div>
+  </Router>
+);
 
 export default App;
