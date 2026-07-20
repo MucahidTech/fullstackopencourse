@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Notification from "./components/Notification";
+import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";
 
 import { Routes, Route, Link, useNavigate, useMatch } from "react-router-dom";
@@ -150,36 +151,40 @@ const App = () => {
           )}
         </Toolbar>
       </AppBar>
+      <ErrorBoundary>
+        <Notification message={notification} />
 
-      <Notification message={notification} />
-
-      <Routes>
-        <Route
-          path="/blogs/:id"
-          element={
-            <Blog
-              blog={blog}
-              userId={user?.username}
-              updateBlog={handleLike}
-              deleteBlog={removeBlog}
-            />
-          }
-        />
-        <Route path="/" element={<BlogForm sortedBloges={sortedBloges} />} />
-        <Route path="/create" element={<AddBlogForm createBlog={addBlog} />} />
-        <Route
-          path="/login"
-          element={
-            <LoginForm
-              username={username}
-              password={password}
-              handleUsernameChange={({ target }) => setUsername(target.value)}
-              handlePasswordChange={({ target }) => setPassword(target.value)}
-              handleSubmit={handleLogin}
-            />
-          }
-        />
-      </Routes>
+        <Routes>
+          <Route
+            path="/blogs/:id"
+            element={
+              <Blog
+                blog={blog}
+                userId={user?.username}
+                updateBlog={handleLike}
+                deleteBlog={removeBlog}
+              />
+            }
+          />
+          <Route path="/" element={<BlogForm sortedBloges={sortedBloges} />} />
+          <Route
+            path="/create"
+            element={<AddBlogForm createBlog={addBlog} />}
+          />
+          <Route
+            path="/login"
+            element={
+              <LoginForm
+                username={username}
+                password={password}
+                handleUsernameChange={({ target }) => setUsername(target.value)}
+                handlePasswordChange={({ target }) => setPassword(target.value)}
+                handleSubmit={handleLogin}
+              />
+            }
+          />
+        </Routes>
+      </ErrorBoundary>
     </Container>
   );
 };
