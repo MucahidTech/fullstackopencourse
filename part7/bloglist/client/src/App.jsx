@@ -20,12 +20,14 @@ import BlogForm from "./components/BlogForm";
 import AddBlogForm from "./components/AddBlogForm";
 import Togglable from "./components/Togglable";
 import Blog from "./components/Blog";
-import { useNotifyControls } from "./store/notifiyStore";
+import { useNotifyControls } from "./stores/notifiyStore";
+import { useBlogs, useBlogsControls } from "./stores/blogsStore";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  const blogs = useBlogs();
   const [user, setUser] = useState(null);
   const { show } = useNotifyControls();
+  const { initialize, add } = useBlogsControls();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -57,8 +59,7 @@ const App = () => {
 
   const addBlog = async (newBlog) => {
     try {
-      const returnedBlog = await blogService.create(newBlog);
-      setBlogs(blogs.concat(returnedBlog));
+      const returnedBlog = await add(newBlog);
 
       show(`A new blog "${newBlog.title}" by "${newBlog.author}" added`);
     } catch {
@@ -99,8 +100,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    initialize();
+  }, [initialize]);
 
   const sortedBloges = [...blogs].sort((a, b) => b.likes - a.likes);
 
