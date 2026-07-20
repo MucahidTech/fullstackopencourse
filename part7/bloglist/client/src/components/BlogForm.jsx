@@ -33,7 +33,7 @@ const BlogForm = ({ sortedBloges }) => {
             <ListItemText
               primary={blog.title}
               secondary={`by ${blog.author}`}
-              primaryTypographyProps={{
+              slotProps={{
                 fontWeight: "bold",
                 color: "#1976d2",
               }}
