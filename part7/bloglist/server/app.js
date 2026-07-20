@@ -1,5 +1,7 @@
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
+
 require("node:dns/promises").setServers(["1.1.1.1", "8.8.8.8"]);
 
 const config = require("./utils/config");
@@ -31,6 +33,13 @@ app.use("/api/login", loginRouter);
 if (process.env.NODE_ENV === "test") {
   const testingRouter = require("./controllers/testing");
   app.use("/api/testing", testingRouter);
+}
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+  app.get("/*splat", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+  });
 }
 
 app.use(middleware.unknownEndpoint);
