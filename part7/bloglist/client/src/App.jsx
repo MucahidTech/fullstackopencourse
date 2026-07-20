@@ -20,19 +20,15 @@ import BlogForm from "./components/BlogForm";
 import AddBlogForm from "./components/AddBlogForm";
 import Togglable from "./components/Togglable";
 import Blog from "./components/Blog";
+import { useNotifyControls } from "./store/notifiyStore";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
+  const { show } = useNotifyControls();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const showNotification = (text, type = "") => {
-    setNotification({ text, type });
-    setTimeout(() => setNotification(null), 5000);
-  };
 
   const navigate = useNavigate();
 
@@ -46,10 +42,10 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-      showNotification(`Login Successful`);
+      show(`Login Successful`);
       navigate("/");
     } catch {
-      showNotification(`Wrong username or password`, "error");
+      show(`Wrong username or password`, "error");
     }
   };
 
@@ -64,11 +60,9 @@ const App = () => {
       const returnedBlog = await blogService.create(newBlog);
       setBlogs(blogs.concat(returnedBlog));
 
-      showNotification(
-        `A new blog "${newBlog.title}" by "${newBlog.author}" added`
-      );
+      show(`A new blog "${newBlog.title}" by "${newBlog.author}" added`);
     } catch {
-      showNotification("Invalid blog data", "error");
+      show("Invalid blog data", "error");
     }
   };
 
@@ -79,9 +73,9 @@ const App = () => {
       const mergedBlog = { ...returnedBlog, user: existingBlog.user };
 
       setBlogs(blogs.map((blog) => (blog.id === id ? mergedBlog : blog)));
-      showNotification(`Liked '${mergedBlog.title}'`);
+      show(`Liked '${mergedBlog.title}'`);
     } catch (error) {
-      showNotification(`Error liking blog: ${error}`, "error");
+      show(`Error liking blog: ${error}`, "error");
     }
   };
 
@@ -89,9 +83,9 @@ const App = () => {
     try {
       await blogService.remove(id);
       setBlogs(blogs.filter((blog) => blog.id !== id));
-      showNotification(`Blog  has been deleted`);
+      show(`Blog  has been deleted`);
     } catch (error) {
-      showNotification(`Error deleting blog: ${error}`, "error");
+      show(`Error deleting blog: ${error}`, "error");
     }
   };
 
@@ -152,7 +146,7 @@ const App = () => {
         </Toolbar>
       </AppBar>
       <ErrorBoundary>
-        <Notification message={notification} />
+        <Notification />
 
         <Routes>
           <Route
