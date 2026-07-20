@@ -166,7 +166,7 @@ describe("Testing blogs API", () => {
 
       const blogsAtEnd = await api.get("/api/blogs");
       const updatedBlogInDb = blogsAtEnd.body.find(
-        (blog) => blog.id === blogToUpdate.id,
+        (blog) => blog.id === blogToUpdate.id
       );
       assert.strictEqual(updatedBlogInDb.likes, 20);
     });

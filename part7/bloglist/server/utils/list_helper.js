@@ -83,7 +83,7 @@ const mostBlogs = (blogs) => {
 
   const topAuthor = _.maxBy(
     Object.keys(authorCounts),
-    (author) => authorCounts[author],
+    (author) => authorCounts[author]
   );
 
   return {
@@ -98,12 +98,12 @@ const mostLikes = (blogs) => {
   const blogsByAuthor = _.groupBy(blogs, "author");
 
   const authorLikes = _.mapValues(blogsByAuthor, (authorBlogs) =>
-    _.sumBy(authorBlogs, "likes"),
+    _.sumBy(authorBlogs, "likes")
   );
 
   const topAuthor = _.maxBy(
     Object.keys(authorLikes),
-    (author) => authorLikes[author],
+    (author) => authorLikes[author]
   );
 
   return {

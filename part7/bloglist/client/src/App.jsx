@@ -65,7 +65,7 @@ const App = () => {
       setBlogs(blogs.concat(returnedBlog));
 
       showNotification(
-        `A new blog "${newBlog.title}" by "${newBlog.author}" added`,
+        `A new blog "${newBlog.title}" by "${newBlog.author}" added`
       );
     } catch {
       showNotification("Invalid blog data", "error");

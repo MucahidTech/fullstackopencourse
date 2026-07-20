@@ -1,5 +1,7 @@
 {
   "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "install:client": "npm install --prefix client",
     "install:server": "npm install --prefix server",
     "install:all": "npm run install:client && npm run install:server",
@@ -9,6 +11,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "cross-env": "^10.1.0"
+    "cross-env": "^10.1.0",
+    "prettier": "^3.9.5"
   }
 }

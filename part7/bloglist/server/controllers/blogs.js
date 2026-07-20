@@ -47,7 +47,7 @@ blogsRouter.put("/:id", async (request, response) => {
   const updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
     { title, author, url, likes },
-    { new: true, runValidators: true },
+    { new: true, runValidators: true }
   );
   if (updatedBlog) {
     response.json(updatedBlog);

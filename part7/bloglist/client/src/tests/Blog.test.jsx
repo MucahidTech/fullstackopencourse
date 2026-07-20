@@ -45,7 +45,7 @@ describe("Blog component", () => {
     const user = userEvent.setup();
 
     renderWithRouter(
-      <Blog blog={blog} userId={"user2"} updateBlog={mockHandler} />,
+      <Blog blog={blog} userId={"user2"} updateBlog={mockHandler} />
     );
 
     const likeButton = screen.getByText("like");
@@ -63,7 +63,7 @@ describe("Blog component", () => {
 
     const mockHandler = vi.fn();
     renderWithRouter(
-      <Blog blog={blog} userId={"user1"} deleteBlog={mockDelete} />,
+      <Blog blog={blog} userId={"user1"} deleteBlog={mockDelete} />
     );
 
     const removeButton = screen.queryByTestId("blog-remove");

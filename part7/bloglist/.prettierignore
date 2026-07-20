@@ -1,0 +1,16 @@
+# .prettierignore
+node_modules
+dist
+build
+coverage
+*.log
+.env
+.DS_Store
+package-lock.json
+client/package-lock.json
+server/package-lock.json
+client/dist
+server/node_modules
+*.config.js
+eslint.config.js
+vite.config.js

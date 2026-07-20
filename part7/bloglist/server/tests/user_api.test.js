@@ -118,8 +118,8 @@ describe("user creation", () => {
         .expect("Content-Type", /application\/json/);
       assert(
         result.body.error.includes(
-          "Username must be at least 3 characters long",
-        ),
+          "Username must be at least 3 characters long"
+        )
       );
 
       const usersAtEnd = await helper.usersInDb();
@@ -140,8 +140,8 @@ describe("user creation", () => {
         .expect("Content-Type", /application\/json/);
       assert(
         result.body.error.includes(
-          "Password must be at least 3 characters long",
-        ),
+          "Password must be at least 3 characters long"
+        )
       );
 
       const usersAtEnd = await helper.usersInDb();
