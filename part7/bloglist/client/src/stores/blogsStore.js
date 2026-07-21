@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import blogService from "../services/blogs";
 
-const useBlogsStore = create((set) => ({
+const useBlogsStore = create((set, get) => ({
   blogs: [],
 
   actions: {
@@ -12,6 +12,24 @@ const useBlogsStore = create((set) => ({
     initialize: async () => {
       const blogs = await blogService.getAll();
       set(() => ({ blogs }));
+    },
+    like: async (id) => {
+      const blog = get().blogs.find((b) => b.id === id);
+      const updated = await blogService.update(id, {
+        ...blog,
+        likes: blog.likes + 1,
+      });
+      set((state) => ({
+        blogs: state.blogs.map((blog) =>
+          blog.id === id ? { ...updated, user: blog.user } : blog
+        ),
+      }));
+    },
+    remove: async (id) => {
+      await blogService.remove(id);
+      set((state) => ({
+        blogs: state.blogs.filter((b) => b.id !== id),
+      }));
     },
   },
 }));

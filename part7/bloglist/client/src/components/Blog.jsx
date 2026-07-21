@@ -19,16 +19,8 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
   if (!blog) return null;
 
   const handleAddLike = async () => {
-    const updatedBlog = {
-      user: blog.user.id,
-      likes: blog.likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-    };
-
     try {
-      await updateBlog(blog.id, updatedBlog);
+      await updateBlog(blog.id);
     } catch (error) {
       console.error("Error liking blog:", error);
     }

@@ -27,7 +27,7 @@ const App = () => {
   const blogs = useBlogs();
   const [user, setUser] = useState(null);
   const { show } = useNotifyControls();
-  const { initialize, add } = useBlogsControls();
+  const { initialize, add, like, remove } = useBlogsControls();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -67,14 +67,10 @@ const App = () => {
     }
   };
 
-  const handleLike = async (id, updatedBlog) => {
+  const handleLike = async (id) => {
     try {
-      const returnedBlog = await blogService.update(id, updatedBlog);
-      const existingBlog = blogs.find((b) => b.id === id);
-      const mergedBlog = { ...returnedBlog, user: existingBlog.user };
-
-      setBlogs(blogs.map((blog) => (blog.id === id ? mergedBlog : blog)));
-      show(`Liked '${mergedBlog.title}'`);
+      await like(id);
+      show(`Liked blog`);
     } catch (error) {
       show(`Error liking blog: ${error}`, "error");
     }
@@ -82,9 +78,8 @@ const App = () => {
 
   const removeBlog = async (id) => {
     try {
-      await blogService.remove(id);
-      setBlogs(blogs.filter((blog) => blog.id !== id));
-      show(`Blog  has been deleted`);
+      await remove(id);
+      show(`Blog has been deleted`);
     } catch (error) {
       show(`Error deleting blog: ${error}`, "error");
     }
