@@ -13,19 +13,19 @@ import {
   Box,
 } from "@mui/material";
 
-import blogService from "./services/blogs";
-import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import AddBlogForm from "./components/AddBlogForm";
-import Togglable from "./components/Togglable";
 import Blog from "./components/Blog";
+
 import { useNotifyControls } from "./stores/notifiyStore";
 import { useBlogs, useBlogsControls } from "./stores/blogsStore";
+import { useUser, useUserControls } from "./stores/userStore";
 
 const App = () => {
   const blogs = useBlogs();
-  const [user, setUser] = useState(null);
+  const user = useUser();
+  const { login, logout } = useUserControls();
   const { show } = useNotifyControls();
   const { initialize, add, like, remove } = useBlogsControls();
 
@@ -38,10 +38,7 @@ const App = () => {
     event.preventDefault();
 
     try {
-      const user = await loginService.login({ username, password });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
+      const user = await login(username, password);
       setUsername("");
       setPassword("");
       show(`Login Successful`);
@@ -52,9 +49,9 @@ const App = () => {
   };
 
   const handleLogOut = () => {
-    window.localStorage.removeItem("loggedBlogappUser");
-    setUser(null);
+    logout();
     navigate("/");
+    show("Logged out");
   };
 
   const addBlog = async (newBlog) => {
@@ -84,15 +81,6 @@ const App = () => {
       show(`Error deleting blog: ${error}`, "error");
     }
   };
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
-  }, []);
 
   useEffect(() => {
     initialize();
