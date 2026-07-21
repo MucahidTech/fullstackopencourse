@@ -18,6 +18,7 @@ import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import AddBlogForm from "./components/AddBlogForm";
 import Blog from "./components/Blog";
+import Users from "./components/Users";
 
 import { useNotifyControls } from "./stores/notifiyStore";
 import { useBlogs, useBlogsControls } from "./stores/blogsStore";
@@ -88,6 +89,9 @@ const App = () => {
             </Button>
           ) : (
             <>
+              <Button color="inherit" component={Link} to="/users">
+                users
+              </Button>
               <Button color="inherit" component={Link} to="/create">
                 new blog
               </Button>
@@ -119,6 +123,7 @@ const App = () => {
             }
           />
           <Route path="/" element={<BlogForm sortedBloges={sortedBloges} />} />
+          <Route path="/users" element={<Users />} />
           <Route path="/create" element={<AddBlogForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="*" element={<h2>404 - Page not found</h2>} />
