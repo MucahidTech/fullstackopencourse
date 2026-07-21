@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+
 import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";
@@ -25,43 +26,16 @@ import { useUser, useUserControls } from "./stores/userStore";
 const App = () => {
   const blogs = useBlogs();
   const user = useUser();
-  const { login, logout } = useUserControls();
+  const { logout } = useUserControls();
   const { show } = useNotifyControls();
   const { initialize, add, like, remove } = useBlogsControls();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
-
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    try {
-      const user = await login(username, password);
-      setUsername("");
-      setPassword("");
-      show(`Login Successful`);
-      navigate("/");
-    } catch {
-      show(`Wrong username or password`, "error");
-    }
-  };
 
   const handleLogOut = () => {
     logout();
     navigate("/");
     show("Logged out");
-  };
-
-  const addBlog = async (newBlog) => {
-    try {
-      const returnedBlog = await add(newBlog);
-
-      show(`A new blog "${newBlog.title}" by "${newBlog.author}" added`);
-    } catch {
-      show("Invalid blog data", "error");
-    }
   };
 
   const handleLike = async (id) => {
@@ -145,22 +119,8 @@ const App = () => {
             }
           />
           <Route path="/" element={<BlogForm sortedBloges={sortedBloges} />} />
-          <Route
-            path="/create"
-            element={<AddBlogForm createBlog={addBlog} />}
-          />
-          <Route
-            path="/login"
-            element={
-              <LoginForm
-                username={username}
-                password={password}
-                handleUsernameChange={({ target }) => setUsername(target.value)}
-                handlePasswordChange={({ target }) => setPassword(target.value)}
-                handleSubmit={handleLogin}
-              />
-            }
-          />
+          <Route path="/create" element={<AddBlogForm />} />
+          <Route path="/login" element={<LoginForm />} />
           <Route path="*" element={<h2>404 - Page not found</h2>} />
         </Routes>
       </ErrorBoundary>

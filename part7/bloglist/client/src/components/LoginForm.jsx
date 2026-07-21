@@ -1,29 +1,45 @@
 import { TextField, Button, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useField, useFieldProps } from "../hooks";
+import { useNotifyControls } from "../stores/notifiyStore";
+import { useUserControls } from "../stores/userStore";
 
-const LoginForm = ({
-  handleSubmit,
-  handleUsernameChange,
-  handlePasswordChange,
-  username,
-  password,
-}) => {
+const LoginForm = () => {
+  const username = useField("text");
+  const password = useField("password");
+
+  const navigate = useNavigate();
+  const { show } = useNotifyControls();
+  const { login } = useUserControls();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    try {
+      const user = await login(username.value, password.value);
+      show(`Login Successful`);
+      navigate("/");
+      username.reset();
+      password.reset();
+    } catch {
+      show(`Wrong username or password`, "error");
+    }
+  };
+
   return (
     <>
       <h2>Log in to application</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <Stack spacing={2} sx={{ width: 300 }}>
           <TextField
             variant="standard"
             label="username"
-            value={username}
-            onChange={handleUsernameChange}
+            {...useFieldProps(username)}
           />
           <TextField
             variant="standard"
             label="password"
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
+            {...useFieldProps(password)}
           />
           <Button
             type="submit"
