@@ -8,10 +8,8 @@ import {
   Chip,
   Divider,
   IconButton,
-  List,
-  ListItemText,
-  ListItem,
 } from "@mui/material";
+import BlogComments from "./BlogComments";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
@@ -144,26 +142,7 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
 
         <Divider sx={{ marginY: 2 }} />
 
-        <Typography gutterBottom sx={{ fontWeight: "bold", color: "#1976d2" }}>
-          Comments
-        </Typography>
-        {comments.length === 0 ? (
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ fontStyle: "italic" }}
-          >
-            No comments yet
-          </Typography>
-        ) : (
-          <List>
-            {comments.map((comment) => (
-              <ListItem key={comment.id}>
-                <ListItemText primary={comment.content} />
-              </ListItem>
-            ))}
-          </List>
-        )}
+        <BlogComments blogId={blog.id} comments={comments} />
       </CardContent>
     </Card>
   );
