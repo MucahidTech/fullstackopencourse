@@ -38,8 +38,6 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
     }
   };
 
-  const comments = blog.comments;
-
   return (
     <Card
       sx={{
@@ -142,7 +140,7 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
 
         <Divider sx={{ marginY: 2 }} />
 
-        <BlogComments blogId={blog.id} comments={comments} />
+        <BlogComments blogId={blog.id} comments={blog.comments || []} />
       </CardContent>
     </Card>
   );
