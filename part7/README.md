@@ -20,6 +20,16 @@ Deep dive into modern React patterns: custom hooks, React Router, Zustand for cl
 | **routed-anecdotes** | Anecdote app with React Router, custom hooks, and full CRUD operations (exercises 7.1 - 7.6) |
 | **bloglist**         | Full-stack blog application with Zustand, and MaterialUI styling (exercises 7.7 - 7.20)      |
 
+## 🌐 Featured Projects
+
+| Project      | Description                                                       | Live Demo                                                   |
+| ------------ | ----------------------------------------------------------------- | ----------------------------------------------------------- |
+| **Bloglist** | Full-stack blog platform with authentication, comments, and likes | [Live Demo](https://fullstackopencourse-akn9.onrender.com/) |
+
+> 📌 **Demo Credentials:**  
+> **Username:** `test`  
+> **Password:** `pass`
+
 ## 📚 Reference
 
 [Full Stack Open Part 7](https://fullstackopen.com/en/part7)

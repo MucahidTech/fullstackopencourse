@@ -22,7 +22,7 @@ A full-stack blog application with advanced state management (Zustand or React Q
 - 💅 Styling with MaterialUI (tables, cards, avatars, chips)
 - 💬 Full-stack comments: backend API + frontend integration
 
-## 🚀 How to run
+## 🚀 How to run locally
 
 ```bash
 cd part7/bloglist
@@ -39,6 +39,16 @@ npm run dev:server
 # Run only the frontend
 npm run dev:client
 ```
+
+## 🌐 Live Demo
+
+You can try the application online at:
+
+[Bloglist Live Demo](https://fullstackopencourse-akn9.onrender.com/)
+
+> 📌 **Demo Credentials:**  
+> **Username:** `test`  
+> **Password:** `pass`
 
 ## 🌐 Backend API
 
