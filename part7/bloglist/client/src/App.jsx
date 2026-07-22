@@ -19,6 +19,7 @@ import BlogForm from "./components/BlogForm";
 import AddBlogForm from "./components/AddBlogForm";
 import Blog from "./components/Blog";
 import Users from "./components/Users";
+import SingleUser from "./components/UserView";
 
 import { useNotifyControls } from "./stores/notifiyStore";
 import { useBlogs, useBlogsControls } from "./stores/blogsStore";
@@ -124,6 +125,7 @@ const App = () => {
           />
           <Route path="/" element={<BlogForm sortedBloges={sortedBloges} />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<SingleUser />} />
           <Route path="/create" element={<AddBlogForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="*" element={<h2>404 - Page not found</h2>} />
