@@ -1,7 +1,21 @@
+import { useEffect, useMemo } from "react";
+
 import { Link } from "react-router-dom";
 import { List, ListItem, ListItemText, Paper, Typography } from "@mui/material";
+import { useBlogs, useBlogsControls } from "../stores/blogsStore";
 
-const BlogForm = ({ sortedBloges }) => {
+const BlogForm = () => {
+  const blogs = useBlogs();
+  const { initialize } = useBlogsControls();
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
+  const sortedBloges = useMemo(() => {
+    return [...blogs].sort((a, b) => b.likes - a.likes);
+  }, [blogs]);
+
   return (
     <Paper
       elevation={2}
@@ -31,12 +45,12 @@ const BlogForm = ({ sortedBloges }) => {
             }}
           >
             <ListItemText
-              primary={blog.title}
+              primary={
+                <Typography sx={{ fontWeight: "bold", color: "#1976d2" }}>
+                  {blog.title}
+                </Typography>
+              }
               secondary={`by ${blog.author}`}
-              slotProps={{
-                fontWeight: "bold",
-                color: "#1976d2",
-              }}
             />
           </ListItem>
         ))}

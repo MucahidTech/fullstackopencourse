@@ -1,5 +1,3 @@
-import { useEffect, useMemo } from "react";
-
 import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";
@@ -30,7 +28,7 @@ const App = () => {
   const user = useUser();
   const { logout } = useUserControls();
   const { show } = useNotifyControls();
-  const { initialize, add, like, remove } = useBlogsControls();
+  const { like, remove } = useBlogsControls();
 
   const navigate = useNavigate();
 
@@ -58,20 +56,16 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
-
-  const sortedBloges = useMemo(() => {
-    return [...blogs].sort((a, b) => b.likes - a.likes);
-  }, [blogs]);
-
   const padding = {
     padding: 5,
   };
   const match = useMatch("/blogs/:id");
 
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null;
+
+  if (match && !blog) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container>
@@ -125,7 +119,7 @@ const App = () => {
               />
             }
           />
-          <Route path="/" element={<BlogForm sortedBloges={sortedBloges} />} />
+          <Route path="/" element={<BlogForm />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<SingleUser />} />
           <Route path="/create" element={<AddBlogForm />} />
