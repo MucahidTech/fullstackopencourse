@@ -16,13 +16,13 @@
     "@mui/icons-material": "^9.1.1",
     "@mui/material": "^9.1.2",
     "axios": "^1.9.0",
-    "eslint-config-prettier": "^10.1.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.18.0",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "eslint-config-prettier": "^10.1.8",
     "@eslint/js": "^9.25.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
