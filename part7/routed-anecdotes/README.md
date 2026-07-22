@@ -1,16 +1,36 @@
-# React + Vite
+# 📖 Routed Anecdotes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React app for managing software engineering anecdotes with routing, custom hooks, and full CRUD operations. Built through exercises 7.1 - 7.6 of Full Stack Open Course.
 
-Currently, two official plugins are available:
+## 🎯 What it does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 📋 Displays a list of anecdotes
+- ➕ Create new anecdotes with validation (min 5 characters)
+- 🗑️ Delete anecdotes
+- 🧭 Navigate between views using React Router
+- 🔄 Fetch and persist data to a JSON Server backend
 
-## React Compiler
+## 🧠 What I practiced
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ⚓ Creating custom hooks: `useField` (form input management with reset) and `useAnecdotes` (server communication)
+- 🧭 Client-side routing with React Router
+- 🧩 Separating logic from UI with custom hooks
+- 🌐 Using the Fetch API for HTTP requests
+- 🧹 Refactoring to remove prop drilling and let components call hooks directly
 
-## Expanding the ESLint configuration
+## 🚀 How to run
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cd part7/routed-anecdotes
+npm install
+
+# Start the JSON server
+npm run server
+
+# Start the React app (in a new terminal)
+npm run dev
+```
+
+## 📚 Reference
+
+- [Exercises 7.1 - 7.6](https://fullstackopen.com/en/part7/more_about_react_hooks#exercises-7-1-7-6)

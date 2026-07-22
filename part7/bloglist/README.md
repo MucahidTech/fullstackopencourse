@@ -1,78 +1,56 @@
-# ✍️ Bloglist
+# ✍️ Bloglist (Part 7)
 
-An end-to-end full-stack web application featuring a React frontend and a Node.js/Express backend. Users can securely log in, manage blog posts, like entries, and navigate through a seamless client-side routed interface.
+A full-stack blog application with advanced state management (Zustand or React Query + Context), user management, commenting, and polished UI. Built through exercises 7.7 - 7.20 of Full Stack Open Course.
 
-Built as part of **Exercises 5.1 - 5.16** and **5.24 - 5.31** of the Full Stack Open Course.
+## 🎯 What it does
 
-> **Note:** The backend for this project was built in [Part 4](https://github.com/MucahidTech/fullstackopencourse/tree/main/part4/bloglist).
-
-## 🎯 Features
-
-- 🔐 **Secure Authentication:** User login/logout with JWT tokens stored securely.
-- ✍️ **Blog Management:** Create, view, like, and delete blog posts (with strict creator-permission checks).
-- 🧭 **Client-Side Routing:** Dynamic navigation via React Router (List view, Single Blog view, User statistics).
-- 💬 **Live Notifications:** Real-time feedback for user actions (success/error alerts).
-- 🧩 **Interactive UI:** Toggleable components for clean form management and UX.
-
-## 💻 Tech Stack
-
-**Frontend:**
-
-- React (Vite)
-- React Router
-- Axios
-- MaterialUI
-
-**Backend (Part 4 Reference):**
-
-- Node.js & Express
-- MongoDB (Mongoose)
-- JSON Web Tokens (JWT)
-
-**Testing:**
-
-- Vitest & React Testing Library (Unit & Integration)
-- Playwright (End-to-End Testing)
+- 🔐 User authentication (login/logout) with JWT
+- ✍️ Create, like, and delete blog posts
+- 👥 Users view: list all users with their blog counts
+- 👤 Individual user view: see all blogs by a specific user
+- 💬 Add and display comments on blog posts
+- 🚨 Error boundary for graceful error handling
+- 🧭 404 page for nonexistent routes
 
 ## 🧠 What I practiced
 
-- 🧪 Testing with Vitest and React Testing Library
-- 🔐 Managing authentication state with JWT tokens
-- 🧭 Implementing client-side routing with React Router (`useNavigate`, `useMatch`)
-- 🔄 Consuming a REST API with Axios
-- 🧹 Creating reusable UI components
-- 🚦 Conditional rendering based on user authentication
-- 🧩 Using `Togglable` for form visibility
+- 🗄️ State management with **Zustand** (or **React Query + Context**)
+- 🧭 Advanced React Router (nested routes, splat routes for 404)
+- 🚨 Error boundaries with fallback UI
+- 🧹 Code cleanup: extracting localStorage logic into `persistentUser` service
+- ⚓ Custom hooks: `useField` for form handling
+- 💅 Styling with MaterialUI (tables, cards, avatars, chips)
+- 💬 Full-stack comments: backend API + frontend integration
 
 ## 🚀 How to run
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/MucahidTech/fullstackopencourse.git
-cd fullstackopencourse/part5/bloglist
+cd part7/bloglist
 
-# 2. Run the backend
-cd bloglist-backend
-npm install
+# Install dependencies for both client and server (from root)
+npm run install:all
+
+# Run both client and server in development mode
 npm run dev
 
-# 3. Run the frontend (in a new terminal)
-cd ../bloglist-frontend
-npm install
-npm run dev
+# Run only the backend
+npm run dev:server
+
+# Run only the frontend
+npm run dev:client
 ```
 
-Then open http://localhost:5173
+## 🌐 Backend API
 
-## 🧪 Running Tests
-
-This project includes comprehensive testing suites to ensure code reliability and quality.
-
-```bash
-cd bloglist-frontend
-npm run test
-```
+- `GET /api/blogs` – List all blogs (with user and comments populated)
+- `POST /api/blogs` – Create a new blog
+- `PUT /api/blogs/:id` – Update a blog (likes)
+- `DELETE /api/blogs/:id` – Delete a blog
+- `POST /api/blogs/:id/comments` – Add a comment to a blog
+- `GET /api/users` – List all users
+- `GET /api/users/:id` – Get a single user with their blogs
+- `POST /api/login` – User login
 
 ## 📚 Reference
 
-- [Full Stack Open Part 5](https://fullstackopen.com/en/part5)
+- [Exercises 7.7 - 7.20](https://fullstackopen.com/en/part7/exercises_extending_the_bloglist)
