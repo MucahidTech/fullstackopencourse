@@ -1,16 +1,11 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 import { Link } from "react-router-dom";
 import { List, ListItem, ListItemText, Paper, Typography } from "@mui/material";
-import { useBlogs, useBlogsControls } from "../stores/blogsStore";
+import { useBlogs } from "../stores/blogsStore";
 
 const BlogForm = () => {
   const blogs = useBlogs();
-  const { initialize } = useBlogsControls();
-
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
 
   const sortedBloges = useMemo(() => {
     return [...blogs].sort((a, b) => b.likes - a.likes);

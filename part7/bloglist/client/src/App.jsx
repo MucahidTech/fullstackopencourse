@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { Container } from "@mui/material";
 
@@ -12,9 +13,16 @@ import Blog from "./components/Blog";
 import Users from "./components/Users";
 import SingleUser from "./components/UserView";
 
+import { useBlogsControls } from "./stores/blogsStore";
 import "./index.css";
 
 const App = () => {
+  const { initialize } = useBlogsControls();
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
   return (
     <Container>
       <Navbar />
