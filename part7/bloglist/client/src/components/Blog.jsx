@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useMatch } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -9,31 +9,46 @@ import {
   Divider,
   IconButton,
 } from "@mui/material";
-import BlogComments from "./BlogComments";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
-const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
+import BlogComments from "./BlogComments";
+
+import { useUser } from "../stores/userStore";
+import { useBlogs, useBlogsControls } from "../stores/blogsStore";
+import { useNotifyControls } from "../stores/notifiyStore";
+
+const Blog = () => {
+  const user = useUser();
+  const blogs = useBlogs();
+  const { like, remove } = useBlogsControls();
+  const { show } = useNotifyControls();
+
   const navigate = useNavigate();
+  const match = useMatch("/blogs/:id");
+
+  const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null;
 
   if (!blog) return null;
 
   const handleAddLike = async () => {
     try {
-      await updateBlog(blog.id);
+      await like(blog.id);
+      show(`Liked blog "${blog.title}"`);
     } catch (error) {
-      console.error("Error liking blog:", error);
+      show(`Error liking blog: ${error}`, "error");
     }
   };
 
   const handleDelete = async () => {
     if (window.confirm(`Delete blog "${blog.title}"?`)) {
       try {
-        await deleteBlog(blog.id);
+        await remove(blog.id);
         navigate("/");
+        show(`Blog "${blog.title}" has been deleted`);
       } catch (error) {
-        console.error("Error deleting blog:", error);
+        show(`Error deleting blog: ${error}`, "error");
       }
     }
   };
@@ -104,7 +119,7 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
               variant="outlined"
               sx={{ marginRight: 1 }}
             />
-            {userId && (
+            {user && (
               <Button
                 variant="contained"
                 color="primary"
@@ -118,7 +133,7 @@ const Blog = ({ blog, updateBlog, userId, deleteBlog }) => {
             )}
           </Box>
 
-          {userId === blog.user?.username && (
+          {user?.username === blog.user?.username && (
             <Button
               variant="contained"
               color="error"
