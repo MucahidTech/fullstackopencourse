@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -62,7 +62,9 @@ const App = () => {
     initialize();
   }, [initialize]);
 
-  const sortedBloges = [...blogs].sort((a, b) => b.likes - a.likes);
+  const sortedBloges = useMemo(() => {
+    return [...blogs].sort((a, b) => b.likes - a.likes);
+  }, [blogs]);
 
   const padding = {
     padding: 5,
