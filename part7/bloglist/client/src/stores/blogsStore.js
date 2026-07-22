@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { useShallow } from "zustand/react/shallow";
+
 import blogService from "../services/blogs";
 
 const useBlogsStore = create((set, get) => ({
@@ -47,5 +49,5 @@ const useBlogsStore = create((set, get) => ({
   },
 }));
 
-export const useBlogs = () => useBlogsStore((state) => state.blogs);
+export const useBlogs = () => useBlogsStore(useShallow((state) => state.blogs));
 export const useBlogsControls = () => useBlogsStore((state) => state.actions);
